@@ -1,0 +1,457 @@
+### Electricity Distribution Management Platform - API Examples
+
+# ============================================
+# Authentication Service Examples
+# ============================================
+
+### Register New User
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "SecurePassword@123",
+  "role": "TECHNICIAN"
+}
+
+### Register - Expected Response
+# HTTP/1.1 201 Created
+# {
+#   "id": "550e8400-e29b-41d4-a716-446655440000",
+#   "username": "newuser",
+#   "email": "newuser@example.com",
+#   "role": "TECHNICIAN",
+#   "active": true
+# }
+
+---
+
+### Login User
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "password"
+}
+
+### Login - Expected Response
+# HTTP/1.1 200 OK
+# {
+#   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwicm9sZXMiOlsiU1VQRVJfQURNSU4iXSwiaWF0IjoxNzA0NzEyMDAwLCJleHAiOjE3MDQ3OTg0MDB9.",
+#   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+#   "tokenType": "Bearer",
+#   "expiresIn": 86400
+# }
+
+---
+
+### Refresh Token
+POST http://localhost:8080/auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+
+---
+
+### Get User by ID
+GET http://localhost:8080/auth/users/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+---
+
+### Get User by Username
+GET http://localhost:8080/auth/users/username/superadmin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+---
+
+### List All Users
+GET http://localhost:8080/auth/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+---
+
+### Update User
+PUT http://localhost:8080/auth/users/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+Content-Type: application/json
+
+{
+  "username": "updateduser",
+  "email": "updated@example.com",
+  "password": "NewPassword@123",
+  "role": "BILLER",
+  "active": true,
+  "locked": false,
+  "enabled": true,
+  "credentialsNonExpired": true
+}
+
+---
+
+### Delete User
+DELETE http://localhost:8080/auth/users/550e8400-e29b-41d4-a716-446655440000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+---
+
+# ============================================
+# Customer Service Examples
+# ============================================
+
+### Create Customer
+POST http://localhost:8080/api/customers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+Content-Type: application/json
+
+{
+  "name": "Raj Kumar",
+  "email": "raj.kumar@example.com",
+  "phone": "9876543210",
+  "address": "123 Main Street",
+  "city": "Mumbai",
+  "district": "Mumbai District",
+  "state": "Maharashtra"
+}
+
+### Create Customer - Expected Response
+# HTTP/1.1 201 Created
+# {
+#   "id": "a550e8400-e29b-41d4-a716-446655440001",
+#   "name": "Raj Kumar",
+#   "email": "raj.kumar@example.com",
+#   "phone": "9876543210",
+#   "address": "123 Main Street",
+#   "city": "Mumbai",
+#   "district": "Mumbai District",
+#   "state": "Maharashtra",
+#   "status": "ACTIVE",
+#   "active": true,
+#   "registeredAt": "2025-01-10"
+# }
+
+---
+
+### List All Customers
+GET http://localhost:8080/api/customers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+### List Customers - Expected Response
+# HTTP/1.1 200 OK
+# [
+#   {
+#     "id": "a550e8400-e29b-41d4-a716-446655440001",
+#     "name": "Raj Kumar",
+#     "email": "raj.kumar@example.com",
+#     "phone": "9876543210",
+#     "address": "123 Main Street",
+#     "city": "Mumbai",
+#     "district": "Mumbai District",
+#     "state": "Maharashtra",
+#     "status": "ACTIVE",
+#     "active": true,
+#     "registeredAt": "2025-01-10"
+#   }
+# ]
+
+---
+
+### Get Customer by ID
+GET http://localhost:8080/api/customers/a550e8400-e29b-41d4-a716-446655440001
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+---
+
+### Update Customer
+PUT http://localhost:8080/api/customers/a550e8400-e29b-41d4-a716-446655440001
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+Content-Type: application/json
+
+{
+  "name": "Raj Kumar Updated",
+  "email": "raj.updated@example.com",
+  "phone": "9876543210",
+  "address": "456 Side Street",
+  "city": "Mumbai",
+  "district": "Mumbai District",
+  "state": "Maharashtra"
+}
+
+---
+
+### Delete Customer
+DELETE http://localhost:8080/api/customers/a550e8400-e29b-41d4-a716-446655440001
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+---
+
+# ============================================
+# Error Examples
+# ============================================
+
+### 400 - Bad Request (Validation Error)
+# When sending invalid data:
+# POST http://localhost:8080/api/customers
+# {
+#   "name": "",  // Missing required field
+#   "email": "invalid-email"  // Invalid email format
+# }
+# 
+# Response:
+# HTTP/1.1 400 Bad Request
+# {
+#   "timestamp": "2025-01-10T10:30:00",
+#   "status": 400,
+#   "error": "Bad Request",
+#   "message": "Validation failed",
+#   "errors": [
+#     "name: Name is required",
+#     "email: Valid email format required"
+#   ]
+# }
+
+---
+
+### 401 - Unauthorized (Missing/Invalid Token)
+# GET http://localhost:8080/api/customers
+# 
+# Response:
+# HTTP/1.1 401 Unauthorized
+# {
+#   "timestamp": "2025-01-10T10:30:00",
+#   "status": 401,
+#   "error": "Unauthorized",
+#   "message": "Missing or invalid JWT token"
+# }
+
+---
+
+### 403 - Forbidden (Insufficient Permissions)
+# If a TECHNICIAN tries to access admin-only endpoint:
+# Response:
+# HTTP/1.1 403 Forbidden
+# {
+#   "timestamp": "2025-01-10T10:30:00",
+#   "status": 403,
+#   "error": "Forbidden",
+#   "message": "Access denied: insufficient permissions"
+# }
+
+---
+
+### 404 - Not Found
+# GET http://localhost:8080/api/customers/invalid-id
+# 
+# Response:
+# HTTP/1.1 404 Not Found
+# {
+#   "timestamp": "2025-01-10T10:30:00",
+#   "status": 404,
+#   "error": "Not Found",
+#   "message": "Customer not found with id: invalid-id"
+# }
+
+---
+
+### 409 - Conflict (Duplicate Email)
+# POST http://localhost:8080/api/customers
+# {
+#   "name": "Another User",
+#   "email": "raj.kumar@example.com",  // Already exists
+#   "phone": "9999999999"
+# }
+# 
+# Response:
+# HTTP/1.1 409 Conflict
+# {
+#   "timestamp": "2025-01-10T10:30:00",
+#   "status": 409,
+#   "error": "Conflict",
+#   "message": "Email already exists: raj.kumar@example.com"
+# }
+
+---
+
+# ============================================
+# Testing Workflow
+# ============================================
+
+### Step 1: Login and get token
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "password"
+}
+
+# Save the accessToken from response
+
+---
+
+### Step 2: Create a customer
+POST http://localhost:8080/api/customers
+Authorization: Bearer [PUT_SAVED_TOKEN_HERE]
+Content-Type: application/json
+
+{
+  "name": "Test Customer",
+  "email": "test.customer@example.com",
+  "phone": "9988776655",
+  "address": "789 Test Lane",
+  "city": "Bangalore",
+  "district": "Bangalore Rural",
+  "state": "Karnataka"
+}
+
+# Save the customer ID from response
+
+---
+
+### Step 3: Retrieve the customer
+GET http://localhost:8080/api/customers/[PUT_SAVED_CUSTOMER_ID_HERE]
+Authorization: Bearer [PUT_SAVED_TOKEN_HERE]
+
+---
+
+### Step 4: Update the customer
+PUT http://localhost:8080/api/customers/[PUT_SAVED_CUSTOMER_ID_HERE]
+Authorization: Bearer [PUT_SAVED_TOKEN_HERE]
+Content-Type: application/json
+
+{
+  "name": "Updated Test Customer",
+  "email": "test.customer.updated@example.com",
+  "phone": "9988776655",
+  "address": "789 Updated Lane",
+  "city": "Bangalore",
+  "district": "Bangalore Urban",
+  "state": "Karnataka"
+}
+
+---
+
+### Step 5: List all customers
+GET http://localhost:8080/api/customers
+Authorization: Bearer [PUT_SAVED_TOKEN_HERE]
+
+---
+
+### Step 6: Delete the customer
+DELETE http://localhost:8080/api/customers/[PUT_SAVED_CUSTOMER_ID_HERE]
+Authorization: Bearer [PUT_SAVED_TOKEN_HERE]
+
+---
+
+# ============================================
+# Default Test Users
+# ============================================
+
+# Platform Roles (from data.sql seed):
+# 1. superadmin / password (SUPER_ADMIN)
+# 2. management / password (MANAGEMENT)
+# 3. state_head / password (STATE_HEAD)
+# 4. district_head / password (DISTRICT_HEAD)
+# 5. city_head / password (CITY_HEAD)
+# 6. sales_poc / password (SALES_POC)
+# 7. crm / password (CRM)
+# 8. technician / password (TECHNICIAN)
+# 9. biller / password (BILLER)
+
+---
+
+# ============================================
+# Swagger UI Access
+# ============================================
+
+# Auth Service Swagger UI:
+# http://localhost:8081/swagger-ui.html
+
+# Customer Service Swagger UI:
+# http://localhost:8082/swagger-ui.html
+
+# API Gateway (routes to all services):
+# http://localhost:8080
+
+---
+
+# ============================================
+# Common Response Headers
+# ============================================
+
+# Success Response Headers:
+# Content-Type: application/json
+# Cache-Control: no-cache
+# X-Content-Type-Options: nosniff
+# X-Frame-Options: DENY
+# X-XSS-Protection: 1; mode=block
+
+# Error Response Format:
+# {
+#   "timestamp": "2025-01-10T10:30:00Z",
+#   "status": <http_status_code>,
+#   "error": "<error_type>",
+#   "message": "<human_readable_message>",
+#   "path": "/api/endpoint"
+# }
+
+---
+
+# ============================================
+# Rate Limiting & Security Notes
+# ============================================
+
+# 1. JWT Token Expiration: 24 hours (86400 seconds)
+# 2. Refresh Token: Can be used multiple times until access token expires
+# 3. Password Requirements:
+#    - Min 8 characters
+#    - Must contain uppercase, lowercase, numbers, and special characters
+# 4. All passwords are BCrypt encrypted in database
+# 5. CORS enabled for localhost development
+
+---
+
+# ============================================
+# Pagination (Future Enhancement)
+# ============================================
+
+# Future API endpoints will support:
+# GET http://localhost:8080/api/customers?page=0&size=10&sort=createdAt,desc
+
+# Query Parameters:
+# - page: 0-based page number (default: 0)
+# - size: Number of records per page (default: 10)
+# - sort: Sort criteria (field,asc|desc)
+
+---
+
+# ============================================
+# Filter Examples (Future Enhancement)
+# ============================================
+
+# Filter by customer status:
+# GET http://localhost:8080/api/customers?status=ACTIVE
+
+# Filter by date range:
+# GET http://localhost:8080/api/customers?registeredAfter=2025-01-01&registeredBefore=2025-01-31
+
+# Search by name or email:
+# GET http://localhost:8080/api/customers/search?query=raj
+
+---
+
+# ============================================
+# Notes for Implementation
+# ============================================
+
+# 1. Each service request/response file should follow this pattern
+# 2. Include examples of success and error cases
+# 3. Provide environment variables for base URL and tokens
+# 4. Document required headers and authentication
+# 5. Show typical workflows (login → create → read → update → delete)
+# 6. Test with actual API Gateway URL (http://localhost:8080)
+# 7. Replace placeholder tokens with actual JWT tokens from login endpoint

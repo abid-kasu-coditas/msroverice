@@ -1,0 +1,15 @@
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\controller\CustomerController.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\exception\CustomerNotFoundException.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\model\CustomerStatus.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\exception\EmailAlreadyExistsException.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\exception\CustomerBlockedException.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\service\CustomerService.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\model\Customer.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\client\PaymentBlockServiceClient.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\CustomerServiceApplication.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\mapper\CustomerMapper.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\dto\CustomerResponseDTO.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\config\RestTemplateConfig.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\dto\CustomerRequestDTO.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\exception\GlobalExceptionHandler.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\repository\CustomerRepository.java

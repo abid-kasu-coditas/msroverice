@@ -1,0 +1,17 @@
+com\eps\billingservice\model\Bill.class
+com\eps\billingservice\exception\BillNumberAlreadyExistsException.class
+com\eps\billingservice\dto\BillResponseDTO.class
+com\eps\billingservice\exception\CustomerBlockedException.class
+com\eps\billingservice\client\PaymentBlockServiceClient.class
+com\eps\billingservice\client\MeterServiceClient.class
+com\eps\billingservice\controller\BillingController.class
+com\eps\billingservice\model\BillStatus.class
+com\eps\billingservice\config\RestTemplateConfig.class
+com\eps\billingservice\exception\GlobalExceptionHandler.class
+com\eps\billingservice\BillingServiceApplication.class
+com\eps\billingservice\exception\BillNotFoundException.class
+com\eps\billingservice\repository\BillRepository.class
+com\eps\billingservice\service\BillingService.class
+com\eps\billingservice\mapper\BillMapper.class
+com\eps\billingservice\event\BillEventPublisher.class
+com\eps\billingservice\dto\BillRequestDTO.class

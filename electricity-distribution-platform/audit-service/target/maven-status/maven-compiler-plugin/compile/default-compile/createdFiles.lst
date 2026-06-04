@@ -1,0 +1,7 @@
+com\eps\auditservice\model\AuditLog.class
+com\eps\auditservice\repository\AuditLogRepository.class
+com\eps\auditservice\mapper\AuditMapper.class
+com\eps\auditservice\controller\AuditController.class
+com\eps\auditservice\dto\AuditLogDTO.class
+com\eps\auditservice\service\AuditService.class
+com\eps\auditservice\AuditServiceApplication.class

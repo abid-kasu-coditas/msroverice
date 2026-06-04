@@ -1,0 +1,15 @@
+com\eps\customerservice\client\PaymentBlockServiceClient.class
+com\eps\customerservice\exception\CustomerNotFoundException.class
+com\eps\customerservice\exception\EmailAlreadyExistsException.class
+com\eps\customerservice\dto\CustomerResponseDTO.class
+com\eps\customerservice\controller\CustomerController.class
+com\eps\customerservice\dto\CustomerRequestDTO.class
+com\eps\customerservice\repository\CustomerRepository.class
+com\eps\customerservice\model\Customer.class
+com\eps\customerservice\exception\CustomerBlockedException.class
+com\eps\customerservice\model\CustomerStatus.class
+com\eps\customerservice\mapper\CustomerMapper.class
+com\eps\customerservice\config\RestTemplateConfig.class
+com\eps\customerservice\service\CustomerService.class
+com\eps\customerservice\CustomerServiceApplication.class
+com\eps\customerservice\exception\GlobalExceptionHandler.class

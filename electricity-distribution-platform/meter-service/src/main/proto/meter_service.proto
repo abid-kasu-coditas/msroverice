@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package com.eps.meterservice;
+
+option java_multiple_files = true;
+option java_package = "com.eps.meterservice.grpc";
+option java_outer_classname = "MeterServiceProto";
+
+service MeterService {
+  rpc CreateMeterAccount(CreateMeterAccountRequest) returns (CreateMeterAccountResponse);
+  rpc GetMeterReading(GetMeterReadingRequest) returns (GetMeterReadingResponse);
+  rpc RecordMeterReading(RecordMeterReadingRequest) returns (RecordMeterReadingResponse);
+}
+
+message CreateMeterAccountRequest {
+  string connection_id = 1;
+  string meter_serial_number = 2;
+  string meter_type = 3;
+}
+
+message CreateMeterAccountResponse {
+  string meter_id = 1;
+  string status = 2;
+}
+
+message GetMeterReadingRequest {
+  string meter_id = 1;
+}
+
+message GetMeterReadingResponse {
+  double current_reading = 1;
+  double previous_reading = 2;
+  double units_consumed = 3;
+}
+
+message RecordMeterReadingRequest {
+  string meter_id = 1;
+  double reading_value = 2;
+}
+
+message RecordMeterReadingResponse {
+  bool success = 1;
+  string message = 2;
+}

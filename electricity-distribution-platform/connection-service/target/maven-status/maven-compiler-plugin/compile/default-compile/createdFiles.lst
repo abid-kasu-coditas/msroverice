@@ -1,0 +1,15 @@
+com\eps\connectionservice\exception\GlobalExceptionHandler.class
+com\eps\connectionservice\model\ConnectionStatus.class
+com\eps\connectionservice\mapper\ConnectionMapper.class
+com\eps\connectionservice\ConnectionServiceApplication.class
+com\eps\connectionservice\service\ConnectionService.class
+com\eps\connectionservice\client\PaymentBlockServiceClient.class
+com\eps\connectionservice\controller\ConnectionController.class
+com\eps\connectionservice\exception\ConnectionNumberAlreadyExistsException.class
+com\eps\connectionservice\exception\CustomerBlockedException.class
+com\eps\connectionservice\exception\ConnectionNotFoundException.class
+com\eps\connectionservice\repository\ConnectionRepository.class
+com\eps\connectionservice\dto\ConnectionRequestDTO.class
+com\eps\connectionservice\dto\ConnectionResponseDTO.class
+com\eps\connectionservice\model\Connection.class
+com\eps\connectionservice\config\RestTemplateConfig.class

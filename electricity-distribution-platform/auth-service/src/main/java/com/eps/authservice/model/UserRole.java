@@ -1,0 +1,18 @@
+package com.eps.authservice.model;
+
+public enum UserRole {
+    SUPER_ADMIN,
+    MANAGEMENT,
+    SALES_POC,
+    STATE_HEAD,
+    DISTRICT_HEAD,
+    CITY_HEAD,
+    CRM,
+    TECHNICIAN,
+    BILLER,
+    CLIENT_OPERATIONS,
+    CLIENT_BPO_EMPLOYEE,
+    CLIENT_BPO_MANAGER_L1,
+    CLIENT_BPO_MANAGER_L2,
+    CLIENT_SALES_POC
+}

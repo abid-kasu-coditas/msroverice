@@ -1,0 +1,11 @@
+com\eps\clientonboarding\ClientOnboardingServiceApplication.class
+com\eps\clientonboarding\controller\ClientOnboardingController.class
+com\eps\clientonboarding\model\ClientCompany.class
+com\eps\clientonboarding\mapper\ClientOnboardingMapper.class
+com\eps\clientonboarding\dto\ClientOnboardingResponseDTO.class
+com\eps\clientonboarding\dto\ClientOnboardingRequestDTO.class
+com\eps\clientonboarding\service\ClientOnboardingService.class
+com\eps\clientonboarding\exception\ClientCompanyException.class
+com\eps\clientonboarding\exception\GlobalExceptionHandler.class
+com\eps\clientonboarding\repository\ClientCompanyRepository.class
+com\eps\clientonboarding\model\OnboardingStatus.class

@@ -1,0 +1,10 @@
+com\eps\notificationservice\model\Notification.class
+com\eps\notificationservice\repository\NotificationRepository.class
+com\eps\notificationservice\model\Notification$EventType.class
+com\eps\notificationservice\controller\NotificationController.class
+com\eps\notificationservice\dto\NotificationDTO.class
+com\eps\notificationservice\model\Notification$NotificationStatus.class
+com\eps\notificationservice\mapper\NotificationMapper.class
+com\eps\notificationservice\service\NotificationService.class
+com\eps\notificationservice\kafka\NotificationConsumer.class
+com\eps\notificationservice\NotificationServiceApplication.class
