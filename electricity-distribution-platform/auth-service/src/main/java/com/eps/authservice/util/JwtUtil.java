@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -28,9 +30,20 @@ public class JwtUtil {
   }
 
   public String generateToken(UserDetails userDetails) {
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("role", extractRole(userDetails));
+    String userId = extractUserId(userDetails);
+    if (userId != null) {
+      claims.put("userId", userId);
+    }
+    if (userDetails instanceof User user) {
+      claims.put("userType", user.getUserType());
+      if (user.getTenantId() != null && !user.getTenantId().isBlank()) {
+        claims.put("tenantId", user.getTenantId());
+      }
+    }
     return generateToken(userDetails.getUsername(),
-        extractRole(userDetails),
-        extractUserId(userDetails),
+        claims,
         new Date(System.currentTimeMillis() + jwtExpirationMs));
   }
 
@@ -39,17 +52,13 @@ public class JwtUtil {
         new Date(System.currentTimeMillis() + jwtRefreshExpirationMs));
   }
 
-  private String generateToken(String username, String role, String userId, Date expirationDate) {
+  private String generateToken(String username, Map<String, Object> claims, Date expirationDate) {
     JwtBuilder builder = Jwts.builder()
         .subject(username)
-        .claim("role", role)
+        .claims(claims)
         .issuedAt(new Date())
         .expiration(expirationDate)
         .signWith(getSigningKey(), SignatureAlgorithm.HS256);
-
-    if (userId != null) {
-      builder.claim("userId", userId);
-    }
 
     return builder.compact();
   }
@@ -108,6 +117,24 @@ public class JwtUtil {
         .parseSignedClaims(token)
         .getPayload()
         .get("role", String.class);
+  }
+
+  public String extractTenantId(String token) {
+    return Jwts.parser()
+        .verifyWith(getSigningKey())
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .get("tenantId", String.class);
+  }
+
+  public String extractUserType(String token) {
+    return Jwts.parser()
+        .verifyWith(getSigningKey())
+        .build()
+        .parseSignedClaims(token)
+        .getPayload()
+        .get("userType", String.class);
   }
 
   public boolean isTokenExpired(String token) {

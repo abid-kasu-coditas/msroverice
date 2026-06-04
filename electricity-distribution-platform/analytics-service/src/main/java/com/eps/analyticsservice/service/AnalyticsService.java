@@ -1,7 +1,9 @@
 package com.eps.analyticsservice.service;
 
 import com.eps.analyticsservice.model.AnalyticsMetric;
+import com.eps.analyticsservice.model.TenantStat;
 import com.eps.analyticsservice.repository.AnalyticsMetricRepository;
+import com.eps.analyticsservice.repository.TenantStatRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -16,9 +19,12 @@ import java.util.UUID;
 public class AnalyticsService {
 
     private final AnalyticsMetricRepository analyticsMetricRepository;
+    private final TenantStatRepository tenantStatRepository;
 
-    public AnalyticsService(AnalyticsMetricRepository analyticsMetricRepository) {
+    public AnalyticsService(AnalyticsMetricRepository analyticsMetricRepository,
+                            TenantStatRepository tenantStatRepository) {
         this.analyticsMetricRepository = analyticsMetricRepository;
+        this.tenantStatRepository = tenantStatRepository;
     }
 
     /**
@@ -156,5 +162,27 @@ public class AnalyticsService {
      */
     public void deleteMetric(UUID id) {
         analyticsMetricRepository.deleteById(id);
+    }
+
+    public TenantStat recordTenantEvent(String tenantCode, String eventType) {
+        String resolvedTenant = tenantCode == null || tenantCode.isBlank() ? "platform" : tenantCode;
+        return tenantStatRepository.save(new TenantStat(resolvedTenant, eventType));
+    }
+
+    public Map<String, Object> platformSummary() {
+        return summarize(tenantStatRepository.findAll());
+    }
+
+    public Map<String, Object> tenantSummary(String tenantCode) {
+        return summarize(tenantStatRepository.findByTenantCode(tenantCode));
+    }
+
+    private Map<String, Object> summarize(List<TenantStat> stats) {
+        Map<String, Long> byEvent = stats.stream()
+            .collect(java.util.stream.Collectors.groupingBy(
+                TenantStat::getEventType,
+                java.util.stream.Collectors.summingLong(TenantStat::getEventCount)));
+        return Map.of("totalEvents", stats.stream().mapToLong(TenantStat::getEventCount).sum(),
+            "events", byEvent);
     }
 }

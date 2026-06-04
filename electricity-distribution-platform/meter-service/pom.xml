@@ -21,6 +21,16 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.eps</groupId>
+      <artifactId>shared</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eps</groupId>
+      <artifactId>grpc-proto</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
     </dependency>

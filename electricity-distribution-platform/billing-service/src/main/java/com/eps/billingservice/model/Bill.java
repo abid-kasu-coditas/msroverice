@@ -10,21 +10,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "bills")
 public class Bill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private UUID customerId;
+    private Long customerId;
 
     @Column(nullable = false)
-    private UUID meterId;
+    private Long meterId;
 
     @Column(nullable = false, unique = true)
     private String billNumber;
@@ -62,7 +61,7 @@ public class Bill {
 
     public Bill() {}
 
-    public Bill(UUID customerId, UUID meterId, String billNumber, LocalDate billDate,
+    public Bill(Long customerId, Long meterId, String billNumber, LocalDate billDate,
                 LocalDate dueDate, Double unitsConsumed, Double baseAmount, Double taxes,
                 Double penalties, Double discounts, Double totalAmount, BillStatus status) {
         this.customerId = customerId;
@@ -80,14 +79,14 @@ public class Bill {
         this.createdAt = LocalDateTime.now();
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
-    public UUID getMeterId() { return meterId; }
-    public void setMeterId(UUID meterId) { this.meterId = meterId; }
+    public Long getMeterId() { return meterId; }
+    public void setMeterId(Long meterId) { this.meterId = meterId; }
 
     public String getBillNumber() { return billNumber; }
     public void setBillNumber(String billNumber) { this.billNumber = billNumber; }

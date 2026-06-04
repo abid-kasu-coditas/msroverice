@@ -3,12 +3,11 @@ package com.eps.complaintservice.dto;
 import com.eps.complaintservice.model.ComplaintCategory;
 import com.eps.complaintservice.model.ComplaintStatus;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class ComplaintResponseDTO {
 
-    private UUID id;
-    private UUID customerId;
+    private Long id;
+    private Long customerId;
     private ComplaintCategory category;
     private String description;
     private String state;
@@ -16,18 +15,18 @@ public class ComplaintResponseDTO {
     private String city;
     private ComplaintStatus status;
     private LocalDateTime createdAt;
-    private UUID assignedTechnicianId;
-    private UUID assignedByUserId;
+    private Long assignedTechnicianId;
+    private Long assignedByUserId;
     private LocalDateTime assignedAt;
     private LocalDateTime resolvedAt;
     private String resolution;
 
     public ComplaintResponseDTO() {}
 
-    public ComplaintResponseDTO(UUID id, UUID customerId, ComplaintCategory category,
+    public ComplaintResponseDTO(Long id, Long customerId, ComplaintCategory category,
                                 String description, String state, String district, String city,
                                 ComplaintStatus status, LocalDateTime createdAt,
-                                UUID assignedTechnicianId, UUID assignedByUserId,
+                                Long assignedTechnicianId, Long assignedByUserId,
                                 LocalDateTime assignedAt, LocalDateTime resolvedAt,
                                 String resolution) {
         this.id = id;
@@ -46,11 +45,11 @@ public class ComplaintResponseDTO {
         this.resolution = resolution;
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public ComplaintCategory getCategory() { return category; }
     public void setCategory(ComplaintCategory category) { this.category = category; }
@@ -73,11 +72,11 @@ public class ComplaintResponseDTO {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public UUID getAssignedTechnicianId() { return assignedTechnicianId; }
-    public void setAssignedTechnicianId(UUID assignedTechnicianId) { this.assignedTechnicianId = assignedTechnicianId; }
+    public Long getAssignedTechnicianId() { return assignedTechnicianId; }
+    public void setAssignedTechnicianId(Long assignedTechnicianId) { this.assignedTechnicianId = assignedTechnicianId; }
 
-    public UUID getAssignedByUserId() { return assignedByUserId; }
-    public void setAssignedByUserId(UUID assignedByUserId) { this.assignedByUserId = assignedByUserId; }
+    public Long getAssignedByUserId() { return assignedByUserId; }
+    public void setAssignedByUserId(Long assignedByUserId) { this.assignedByUserId = assignedByUserId; }
 
     public LocalDateTime getAssignedAt() { return assignedAt; }
     public void setAssignedAt(LocalDateTime assignedAt) { this.assignedAt = assignedAt; }

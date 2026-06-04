@@ -18,13 +18,17 @@ public class CustomerRequestDTO {
     @NotBlank(message = "Address is required")
     private String address;
 
-    @NotBlank(message = "City is required")
+    private Long globalCustomerId;
+    private String accountNumber;
+    private String tariffType;
+    private Long cityId;
+    private Long areaId;
+    private Long crmId;
+
     private String city;
 
-    @NotBlank(message = "District is required")
     private String district;
 
-    @NotBlank(message = "State is required")
     private String state;
 
     public CustomerRequestDTO() {}
@@ -52,6 +56,24 @@ public class CustomerRequestDTO {
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
+
+    public Long getGlobalCustomerId() { return globalCustomerId; }
+    public void setGlobalCustomerId(Long globalCustomerId) { this.globalCustomerId = globalCustomerId; }
+
+    public String getAccountNumber() { return accountNumber; }
+    public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
+
+    public String getTariffType() { return tariffType; }
+    public void setTariffType(String tariffType) { this.tariffType = tariffType; }
+
+    public Long getCityId() { return cityId; }
+    public void setCityId(Long cityId) { this.cityId = cityId; }
+
+    public Long getAreaId() { return areaId; }
+    public void setAreaId(Long areaId) { this.areaId = areaId; }
+
+    public Long getCrmId() { return crmId; }
+    public void setCrmId(Long crmId) { this.crmId = crmId; }
 
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }

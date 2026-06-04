@@ -1,0 +1,7 @@
+com\eps\meterreadingservice\service\MeterReadingSubmissionService.class
+com\eps\meterreadingservice\repository\MeterReadingRepository.class
+com\eps\meterreadingservice\controller\MeterReadingController.class
+com\eps\meterreadingservice\MeterReadingServiceApplication.class
+com\eps\meterreadingservice\dto\SubmitMeterReadingRequest.class
+com\eps\meterreadingservice\model\MeterReading.class
+com\eps\meterreadingservice\dto\MeterReadingResponse.class

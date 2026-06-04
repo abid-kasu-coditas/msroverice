@@ -8,18 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "meter_readings")
 public class MeterReading {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private UUID meterAccountId;
+    private Long meterAccountId;
 
     @Column(nullable = false)
     private Double currentReading;
@@ -38,7 +37,7 @@ public class MeterReading {
 
     public MeterReading() {}
 
-    public MeterReading(UUID meterAccountId, Double currentReading, Double previousReading,
+    public MeterReading(Long meterAccountId, Double currentReading, Double previousReading,
                         LocalDate readingDate) {
         this.meterAccountId = meterAccountId;
         this.currentReading = currentReading;
@@ -48,11 +47,11 @@ public class MeterReading {
         this.recordedAt = LocalDateTime.now();
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getMeterAccountId() { return meterAccountId; }
-    public void setMeterAccountId(UUID meterAccountId) { this.meterAccountId = meterAccountId; }
+    public Long getMeterAccountId() { return meterAccountId; }
+    public void setMeterAccountId(Long meterAccountId) { this.meterAccountId = meterAccountId; }
 
     public Double getCurrentReading() { return currentReading; }
     public void setCurrentReading(Double currentReading) { this.currentReading = currentReading; }

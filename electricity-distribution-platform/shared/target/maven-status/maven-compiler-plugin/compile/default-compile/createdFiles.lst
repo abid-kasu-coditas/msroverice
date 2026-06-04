@@ -1,0 +1,4 @@
+com\eps\shared\tenant\TenantContext.class
+com\eps\shared\tenant\TenantAwareFilter.class
+com\eps\shared\tenant\TenantIdentifierResolver.class
+com\eps\shared\tenant\SchemaBasedMultiTenantConnectionProvider.class

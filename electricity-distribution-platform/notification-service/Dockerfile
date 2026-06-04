@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY target/*.jar notification-service.jar
 
-EXPOSE 8088
+EXPOSE 8094
 
 ENTRYPOINT ["java", "-jar", "notification-service.jar"]

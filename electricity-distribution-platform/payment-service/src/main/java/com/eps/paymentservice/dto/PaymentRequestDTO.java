@@ -3,15 +3,14 @@ package com.eps.paymentservice.dto;
 import com.eps.paymentservice.model.PaymentMethod;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import java.util.UUID;
 
 public class PaymentRequestDTO {
 
     @NotNull(message = "Bill ID is required")
-    private UUID billId;
+    private Long billId;
 
     @NotNull(message = "Customer ID is required")
-    private UUID customerId;
+    private Long customerId;
 
     @NotNull(message = "Amount is required")
     @Positive(message = "Amount must be greater than zero")
@@ -24,11 +23,11 @@ public class PaymentRequestDTO {
 
     public PaymentRequestDTO() {}
 
-    public UUID getBillId() { return billId; }
-    public void setBillId(UUID billId) { this.billId = billId; }
+    public Long getBillId() { return billId; }
+    public void setBillId(Long billId) { this.billId = billId; }
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public Double getAmount() { return amount; }
     public void setAmount(Double amount) { this.amount = amount; }

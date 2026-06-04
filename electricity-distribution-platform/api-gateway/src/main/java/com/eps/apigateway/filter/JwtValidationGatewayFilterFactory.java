@@ -21,12 +21,15 @@ public class JwtValidationGatewayFilterFactory
     extends AbstractGatewayFilterFactory<JwtValidationGatewayFilterFactory.Config> {
 
   private final SecretKey signingKey;
+  private final TenantSuspensionChecker tenantSuspensionChecker;
 
   public JwtValidationGatewayFilterFactory(
       @Value("${jwt.secret:mySecretKeyForElectricityDistributionPlatformThatIsLongEnoughForHS256Algorithm}")
-      String jwtSecret) {
+      String jwtSecret,
+      TenantSuspensionChecker tenantSuspensionChecker) {
     super(Config.class);
     this.signingKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+    this.tenantSuspensionChecker = tenantSuspensionChecker;
   }
 
   @Override
@@ -55,16 +58,31 @@ public class JwtValidationGatewayFilterFactory
         }
 
         String userId = claims.get("userId", String.class);
+        String userType = claims.get("userType", String.class);
+        String tenantId = claims.get("tenantId", String.class);
+
         var requestBuilder = exchange.getRequest().mutate()
             .header("X-Auth-Username", claims.getSubject())
             .header("X-Auth-Role", role);
         if (userId != null) {
           requestBuilder.header("X-Auth-User-Id", userId);
         }
+        if (userType != null) {
+          requestBuilder.header("X-Auth-User-Type", userType);
+        }
+        if (tenantId != null && !tenantId.isBlank()) {
+          requestBuilder.header("X-Tenant-ID", tenantId);
+        }
 
-        return chain.filter(exchange.mutate()
-            .request(requestBuilder.build())
-            .build());
+        return tenantSuspensionChecker.isSuspended(tenantId).flatMap(isSuspended -> {
+          if (Boolean.TRUE.equals(isSuspended)) {
+            exchange.getResponse().setStatusCode(HttpStatus.LOCKED);
+            return exchange.getResponse().setComplete();
+          }
+          return chain.filter(exchange.mutate()
+              .request(requestBuilder.build())
+              .build());
+        });
       } catch (JwtException | IllegalArgumentException e) {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         return exchange.getResponse().setComplete();

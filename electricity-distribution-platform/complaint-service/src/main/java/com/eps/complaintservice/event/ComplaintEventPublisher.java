@@ -26,7 +26,7 @@ public class ComplaintEventPublisher {
     }
 
     public void publishComplaintCreated(Complaint complaint) {
-        publish("complaint-created", "COMPLAINT_CREATED", complaint);
+        publish("complaint-raised", "COMPLAINT_RAISED", complaint);
     }
 
     public void publishComplaintResolved(Complaint complaint) {
@@ -34,7 +34,7 @@ public class ComplaintEventPublisher {
     }
 
     public void publishComplaintAssigned(Complaint complaint) {
-        publish("complaint-assigned", "COMPLAINT_ASSIGNED", complaint);
+        publish("complaint-raised", "COMPLAINT_ASSIGNED", complaint);
     }
 
     private void publish(String topic, String eventType, Complaint complaint) {

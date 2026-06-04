@@ -2,12 +2,11 @@ package com.eps.meterservice.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class MeterReadingResponseDTO {
 
-    private UUID id;
-    private UUID meterAccountId;
+    private Long id;
+    private Long meterAccountId;
     private Double currentReading;
     private Double previousReading;
     private LocalDate readingDate;
@@ -16,7 +15,7 @@ public class MeterReadingResponseDTO {
 
     public MeterReadingResponseDTO() {}
 
-    public MeterReadingResponseDTO(UUID id, UUID meterAccountId, Double currentReading,
+    public MeterReadingResponseDTO(Long id, Long meterAccountId, Double currentReading,
                                    Double previousReading, LocalDate readingDate,
                                    Double unitsConsumed, LocalDateTime recordedAt) {
         this.id = id;
@@ -28,11 +27,11 @@ public class MeterReadingResponseDTO {
         this.recordedAt = recordedAt;
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getMeterAccountId() { return meterAccountId; }
-    public void setMeterAccountId(UUID meterAccountId) { this.meterAccountId = meterAccountId; }
+    public Long getMeterAccountId() { return meterAccountId; }
+    public void setMeterAccountId(Long meterAccountId) { this.meterAccountId = meterAccountId; }
 
     public Double getCurrentReading() { return currentReading; }
     public void setCurrentReading(Double currentReading) { this.currentReading = currentReading; }

@@ -1,38 +1,28 @@
 package com.eps.shared.tenant;
 
-import java.util.UUID;
-
 /**
- * TenantContext holds the current tenant information for the executing thread.
- * This class is thread-safe and uses ThreadLocal to store tenant context.
+ * Stores the current tenant code for schema-per-tenant routing.
  */
-public class TenantContext {
+public final class TenantContext {
 
-  private static final ThreadLocal<UUID> tenantId = new ThreadLocal<>();
-  private static final ThreadLocal<String> tenantName = new ThreadLocal<>();
+  private static final ThreadLocal<String> CURRENT_TENANT = new ThreadLocal<>();
 
-  public static void setTenantId(UUID id) {
-    tenantId.set(id);
+  private TenantContext() {
   }
 
-  public static UUID getTenantId() {
-    return tenantId.get();
+  public static void setCurrentTenant(String tenantId) {
+    CURRENT_TENANT.set(tenantId);
   }
 
-  public static void setTenantName(String name) {
-    tenantName.set(name);
-  }
-
-  public static String getTenantName() {
-    return tenantName.get();
+  public static String getCurrentTenant() {
+    return CURRENT_TENANT.get();
   }
 
   public static void clear() {
-    tenantId.remove();
-    tenantName.remove();
+    CURRENT_TENANT.remove();
   }
 
   public static boolean isSet() {
-    return tenantId.get() != null;
+    return CURRENT_TENANT.get() != null;
   }
 }

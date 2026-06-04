@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY target/*.jar complaint-service.jar
 
-EXPOSE 8087
+EXPOSE 8092
 
 ENTRYPOINT ["java", "-jar", "complaint-service.jar"]

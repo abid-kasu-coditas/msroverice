@@ -129,4 +129,15 @@ public class NotificationConsumer {
             System.err.println("Error processing connection-activated event: " + e.getMessage());
         }
     }
+
+    @KafkaListener(topics = {
+        "tenant-provisioned", "customer-onboarded", "payment-received",
+        "complaint-raised", "complaint-resolved", "complaint-escalated",
+        "tenant-suspended"
+    }, groupId = "notification-service-log-group")
+    public void consumeOperationalNotifications(String message,
+        org.apache.kafka.clients.consumer.ConsumerRecord<String, String> record) {
+        System.out.println("Notification stub for topic " + record.topic()
+            + " tenant/key=" + record.key());
+    }
 }

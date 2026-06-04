@@ -2,21 +2,20 @@ package com.eps.paymentservice.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "payment_blocks")
 public class PaymentBlock {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "customer_id", nullable = false)
-    private UUID customerId;
+    private Long customerId;
 
     @Column(name = "bill_id")
-    private UUID billId;
+    private Long billId;
 
     @Column(name = "is_blocked", nullable = false)
     private Boolean isBlocked = false;
@@ -37,13 +36,13 @@ public class PaymentBlock {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(name = "tenant_id")
-    private UUID tenantId;
+    private String tenantId;
 
     // Constructors
     public PaymentBlock() {
     }
 
-    public PaymentBlock(UUID customerId, UUID billId, String blockReason) {
+    public PaymentBlock(Long customerId, Long billId, String blockReason) {
         this.customerId = customerId;
         this.billId = billId;
         this.blockReason = blockReason;
@@ -54,27 +53,27 @@ public class PaymentBlock {
     }
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
-    public UUID getBillId() {
+    public Long getBillId() {
         return billId;
     }
 
-    public void setBillId(UUID billId) {
+    public void setBillId(Long billId) {
         this.billId = billId;
     }
 
@@ -126,11 +125,11 @@ public class PaymentBlock {
         this.updatedAt = updatedAt;
     }
 
-    public UUID getTenantId() {
+    public String getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(UUID tenantId) {
+    public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
     }
 }

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package eps.events.billing;
+
+option java_multiple_files = true;
+option java_package = "com.eps.grpc.events.billing";
+option java_outer_classname = "BillingEventsProto";
+
+message BillGeneratedEvent {
+  string event_id = 1;
+  string tenant_code = 2;
+  int64 bill_id = 3;
+  int64 customer_id = 4;
+  double amount = 5;
+  string generated_at = 6;
+}

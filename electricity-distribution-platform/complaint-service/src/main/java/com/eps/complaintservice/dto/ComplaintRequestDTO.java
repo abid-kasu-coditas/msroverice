@@ -4,12 +4,11 @@ import com.eps.complaintservice.model.ComplaintCategory;
 import com.eps.complaintservice.model.ComplaintStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
 
 public class ComplaintRequestDTO {
 
     @NotNull(message = "Customer ID is required")
-    private UUID customerId;
+    private Long customerId;
 
     @NotNull(message = "Complaint category is required")
     private ComplaintCategory category;
@@ -25,8 +24,8 @@ public class ComplaintRequestDTO {
 
     public ComplaintRequestDTO() {}
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public ComplaintCategory getCategory() { return category; }
     public void setCategory(ComplaintCategory category) { this.category = category; }

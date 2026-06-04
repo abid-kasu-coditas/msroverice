@@ -1,13 +1,12 @@
 package com.eps.paymentservice.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class PaymentBlockDTO {
     
-    private UUID id;
-    private UUID customerId;
-    private UUID billId;
+    private Long id;
+    private Long customerId;
+    private Long billId;
     private Boolean isBlocked;
     private String blockReason;
     private LocalDateTime blockedAt;
@@ -19,7 +18,7 @@ public class PaymentBlockDTO {
     public PaymentBlockDTO() {
     }
 
-    public PaymentBlockDTO(UUID customerId, UUID billId, Boolean isBlocked, String blockReason) {
+    public PaymentBlockDTO(Long customerId, Long billId, Boolean isBlocked, String blockReason) {
         this.customerId = customerId;
         this.billId = billId;
         this.isBlocked = isBlocked;
@@ -27,27 +26,27 @@ public class PaymentBlockDTO {
     }
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
-    public UUID getBillId() {
+    public Long getBillId() {
         return billId;
     }
 
-    public void setBillId(UUID billId) {
+    public void setBillId(Long billId) {
         this.billId = billId;
     }
 

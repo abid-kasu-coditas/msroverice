@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/payments/blocks")
@@ -28,7 +27,7 @@ public class PaymentBlockController {
      */
     @GetMapping("/status/{customerId}")
     @Operation(summary = "Check if customer is blocked", description = "Check if a customer has blocked services due to unpaid bills")
-    public ResponseEntity<Map<String, Object>> checkBlockStatus(@PathVariable UUID customerId) {
+    public ResponseEntity<Map<String, Object>> checkBlockStatus(@PathVariable Long customerId) {
         Boolean isBlocked = paymentBlockService.isCustomerBlocked(customerId);
         
         if (isBlocked) {
@@ -56,7 +55,7 @@ public class PaymentBlockController {
      */
     @GetMapping("/customer/{customerId}")
     @Operation(summary = "Get active block", description = "Get the active payment block for a customer")
-    public ResponseEntity<PaymentBlock> getActiveBlock(@PathVariable UUID customerId) {
+    public ResponseEntity<PaymentBlock> getActiveBlock(@PathVariable Long customerId) {
         Optional<PaymentBlock> block = paymentBlockService.getActiveBlock(customerId);
         return block.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -66,7 +65,7 @@ public class PaymentBlockController {
      */
     @GetMapping("/customer/{customerId}/all")
     @Operation(summary = "Get all blocks for customer", description = "Get all payment blocks (including historical) for a customer")
-    public ResponseEntity<List<PaymentBlock>> getAllBlocksForCustomer(@PathVariable UUID customerId) {
+    public ResponseEntity<List<PaymentBlock>> getAllBlocksForCustomer(@PathVariable Long customerId) {
         List<PaymentBlock> blocks = paymentBlockService.getAllBlocksForCustomer(customerId);
         return ResponseEntity.ok(blocks);
     }
@@ -77,8 +76,8 @@ public class PaymentBlockController {
     @PostMapping("/block")
     @Operation(summary = "Block customer", description = "Block a customer from using services due to unpaid bills")
     public ResponseEntity<PaymentBlock> blockCustomer(
-            @RequestParam UUID customerId,
-            @RequestParam UUID billId,
+            @RequestParam Long customerId,
+            @RequestParam Long billId,
             @RequestParam String reason
     ) {
         PaymentBlock block = paymentBlockService.blockCustomer(customerId, billId, reason);
@@ -90,7 +89,7 @@ public class PaymentBlockController {
      */
     @PostMapping("/unblock/{customerId}")
     @Operation(summary = "Unblock customer", description = "Unblock a customer to restore service access")
-    public ResponseEntity<PaymentBlock> unblockCustomer(@PathVariable UUID customerId) {
+    public ResponseEntity<PaymentBlock> unblockCustomer(@PathVariable Long customerId) {
         PaymentBlock block = paymentBlockService.unblockCustomer(customerId);
         if (block != null) {
             return ResponseEntity.ok(block);
@@ -113,7 +112,7 @@ public class PaymentBlockController {
      */
     @GetMapping("/{blockId}")
     @Operation(summary = "Get block by ID", description = "Get a specific payment block by its ID")
-    public ResponseEntity<PaymentBlock> getBlockById(@PathVariable UUID blockId) {
+    public ResponseEntity<PaymentBlock> getBlockById(@PathVariable Long blockId) {
         Optional<PaymentBlock> block = paymentBlockService.getBlockById(blockId);
         return block.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

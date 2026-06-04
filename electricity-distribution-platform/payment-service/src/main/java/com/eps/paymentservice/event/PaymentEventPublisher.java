@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class PaymentEventPublisher {
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentEventPublisher.class);
-    private static final String PAYMENT_PROCESSED_TOPIC = "payment-processed";
+    private static final String PAYMENT_PROCESSED_TOPIC = "payment-received";
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
@@ -48,7 +48,7 @@ public class PaymentEventPublisher {
         Map<String, Object> event = new LinkedHashMap<>();
         event.put("eventId", UUID.randomUUID().toString());
         event.put("eventDate", LocalDateTime.now().toString());
-        event.put("eventType", "PAYMENT_PROCESSED");
+        event.put("eventType", "PAYMENT_RECEIVED");
         event.put("data", data);
         return event;
     }

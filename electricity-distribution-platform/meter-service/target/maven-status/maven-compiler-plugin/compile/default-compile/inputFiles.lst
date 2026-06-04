@@ -27,6 +27,7 @@ C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\java\com\eps\meterservice\grpc\CreateMeterAccountResponse.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\java\com\eps\meterservice\grpc\RecordMeterReadingResponseOrBuilder.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\repository\MeterReadingRepository.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\grpc\MeterRateGrpcService.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\java\com\eps\meterservice\grpc\GetMeterReadingRequestOrBuilder.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\java\com\eps\meterservice\grpc\RecordMeterReadingResponse.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\model\MeterReading.java

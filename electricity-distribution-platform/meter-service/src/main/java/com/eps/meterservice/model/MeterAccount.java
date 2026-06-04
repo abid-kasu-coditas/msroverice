@@ -10,18 +10,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "meter_accounts")
 public class MeterAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private UUID connectionId;
+    private Long connectionId;
 
     @Column(nullable = false, unique = true)
     private String meterSerialNumber;
@@ -41,7 +40,7 @@ public class MeterAccount {
 
     public MeterAccount() {}
 
-    public MeterAccount(UUID connectionId, String meterSerialNumber, String meterType,
+    public MeterAccount(Long connectionId, String meterSerialNumber, String meterType,
                         LocalDate installationDate, MeterStatus status) {
         this.connectionId = connectionId;
         this.meterSerialNumber = meterSerialNumber;
@@ -51,11 +50,11 @@ public class MeterAccount {
         this.createdAt = LocalDateTime.now();
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getConnectionId() { return connectionId; }
-    public void setConnectionId(UUID connectionId) { this.connectionId = connectionId; }
+    public Long getConnectionId() { return connectionId; }
+    public void setConnectionId(Long connectionId) { this.connectionId = connectionId; }
 
     public String getMeterSerialNumber() { return meterSerialNumber; }
     public void setMeterSerialNumber(String meterSerialNumber) { this.meterSerialNumber = meterSerialNumber; }

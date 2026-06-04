@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY target/*.jar meter-service.jar
 
-EXPOSE 8084 9084
+EXPOSE 8082 9082
 
 ENTRYPOINT ["java", "-jar", "meter-service.jar"]

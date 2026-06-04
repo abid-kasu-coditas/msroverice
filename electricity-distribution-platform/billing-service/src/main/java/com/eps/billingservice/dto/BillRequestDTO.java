@@ -4,15 +4,14 @@ import com.eps.billingservice.model.BillStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class BillRequestDTO {
 
     @NotNull(message = "Customer ID is required")
-    private UUID customerId;
+    private Long customerId;
 
     @NotNull(message = "Meter ID is required")
-    private UUID meterId;
+    private Long meterId;
 
     private String billNumber;
     private LocalDate billDate;
@@ -35,11 +34,11 @@ public class BillRequestDTO {
 
     public BillRequestDTO() {}
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
-    public UUID getMeterId() { return meterId; }
-    public void setMeterId(UUID meterId) { this.meterId = meterId; }
+    public Long getMeterId() { return meterId; }
+    public void setMeterId(Long meterId) { this.meterId = meterId; }
 
     public String getBillNumber() { return billNumber; }
     public void setBillNumber(String billNumber) { this.billNumber = billNumber; }

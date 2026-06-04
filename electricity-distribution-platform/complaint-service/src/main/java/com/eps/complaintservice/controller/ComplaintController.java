@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +38,7 @@ public class ComplaintController {
     @GetMapping
     @Operation(summary = "Get all complaints")
     public ResponseEntity<List<ComplaintResponseDTO>> getComplaints(
-        @RequestParam(required = false) UUID customerId,
+        @RequestParam(required = false) Long customerId,
         @RequestParam(required = false) ComplaintStatus status,
         @RequestParam(required = false) ComplaintCategory category) {
         if (customerId != null) {
@@ -62,20 +61,20 @@ public class ComplaintController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get complaint by ID")
-    public ResponseEntity<ComplaintResponseDTO> getComplaintById(@PathVariable UUID id) {
+    public ResponseEntity<ComplaintResponseDTO> getComplaintById(@PathVariable Long id) {
         return ResponseEntity.ok(complaintService.getComplaintById(id));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a complaint")
-    public ResponseEntity<ComplaintResponseDTO> updateComplaint(@PathVariable UUID id,
+    public ResponseEntity<ComplaintResponseDTO> updateComplaint(@PathVariable Long id,
         @Valid @RequestBody ComplaintRequestDTO request) {
         return ResponseEntity.ok(complaintService.updateComplaint(id, request));
     }
 
     @PatchMapping("/{id}/assign-technician")
     @Operation(summary = "Assign a technician to a complaint")
-    public ResponseEntity<ComplaintResponseDTO> assignTechnician(@PathVariable UUID id,
+    public ResponseEntity<ComplaintResponseDTO> assignTechnician(@PathVariable Long id,
         @Valid @RequestBody AssignTechnicianRequestDTO request,
         @RequestHeader(value = "X-Auth-User-Id", required = false) String assignedByUserId) {
         return ResponseEntity.ok(complaintService.assignTechnician(id, request.getTechnicianId(),
@@ -84,22 +83,26 @@ public class ComplaintController {
 
     @PatchMapping("/{id}/resolve")
     @Operation(summary = "Resolve a complaint")
-    public ResponseEntity<ComplaintResponseDTO> resolveComplaint(@PathVariable UUID id,
+    public ResponseEntity<ComplaintResponseDTO> resolveComplaint(@PathVariable Long id,
         @Valid @RequestBody ResolveComplaintRequestDTO request) {
         return ResponseEntity.ok(complaintService.resolveComplaint(id, request.getResolution()));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a complaint")
-    public ResponseEntity<Void> deleteComplaint(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteComplaint(@PathVariable Long id) {
         complaintService.deleteComplaint(id);
         return ResponseEntity.noContent().build();
     }
 
-    private UUID parseUserId(String userId) {
+    private Long parseUserId(String userId) {
         if (userId == null || userId.isBlank()) {
             return null;
         }
-        return UUID.fromString(userId);
+        try {
+            return Long.parseLong(userId);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 }

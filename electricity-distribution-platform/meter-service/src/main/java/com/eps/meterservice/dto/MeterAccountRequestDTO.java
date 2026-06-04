@@ -4,12 +4,11 @@ import com.eps.meterservice.model.MeterStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class MeterAccountRequestDTO {
 
     @NotNull(message = "Connection ID is required")
-    private UUID connectionId;
+    private Long connectionId;
 
     @NotBlank(message = "Meter serial number is required")
     private String meterSerialNumber;
@@ -22,7 +21,7 @@ public class MeterAccountRequestDTO {
 
     public MeterAccountRequestDTO() {}
 
-    public MeterAccountRequestDTO(UUID connectionId, String meterSerialNumber, String meterType,
+    public MeterAccountRequestDTO(Long connectionId, String meterSerialNumber, String meterType,
                                   LocalDate installationDate, MeterStatus status) {
         this.connectionId = connectionId;
         this.meterSerialNumber = meterSerialNumber;
@@ -31,8 +30,8 @@ public class MeterAccountRequestDTO {
         this.status = status;
     }
 
-    public UUID getConnectionId() { return connectionId; }
-    public void setConnectionId(UUID connectionId) { this.connectionId = connectionId; }
+    public Long getConnectionId() { return connectionId; }
+    public void setConnectionId(Long connectionId) { this.connectionId = connectionId; }
 
     public String getMeterSerialNumber() { return meterSerialNumber; }
     public void setMeterSerialNumber(String meterSerialNumber) { this.meterSerialNumber = meterSerialNumber; }

@@ -9,21 +9,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "payments")
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private UUID billId;
+    private Long billId;
 
     @Column(nullable = false)
-    private UUID customerId;
+    private Long customerId;
 
     @Column(nullable = false)
     private Double amount;
@@ -44,7 +43,7 @@ public class Payment {
 
     public Payment() {}
 
-    public Payment(UUID billId, UUID customerId, Double amount, PaymentMethod method,
+    public Payment(Long billId, Long customerId, Double amount, PaymentMethod method,
                    PaymentStatus status, LocalDateTime paymentDate, String transactionId) {
         this.billId = billId;
         this.customerId = customerId;
@@ -55,14 +54,14 @@ public class Payment {
         this.transactionId = transactionId;
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getBillId() { return billId; }
-    public void setBillId(UUID billId) { this.billId = billId; }
+    public Long getBillId() { return billId; }
+    public void setBillId(Long billId) { this.billId = billId; }
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public Double getAmount() { return amount; }
     public void setAmount(Double amount) { this.amount = amount; }

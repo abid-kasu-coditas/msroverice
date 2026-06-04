@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +33,7 @@ public class BillingController {
 
     @GetMapping
     @Operation(summary = "Get all bills")
-    public ResponseEntity<List<BillResponseDTO>> getBills(@RequestParam(required = false) UUID customerId) {
+    public ResponseEntity<List<BillResponseDTO>> getBills(@RequestParam(required = false) Long customerId) {
         if (customerId != null) {
             return ResponseEntity.ok(billingService.getBillsByCustomerId(customerId));
         }
@@ -55,26 +54,26 @@ public class BillingController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get bill by ID")
-    public ResponseEntity<BillResponseDTO> getBillById(@PathVariable UUID id) {
+    public ResponseEntity<BillResponseDTO> getBillById(@PathVariable Long id) {
         return ResponseEntity.ok(billingService.getBillById(id));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a bill")
-    public ResponseEntity<BillResponseDTO> updateBill(@PathVariable UUID id,
+    public ResponseEntity<BillResponseDTO> updateBill(@PathVariable Long id,
         @Valid @RequestBody BillRequestDTO request) {
         return ResponseEntity.ok(billingService.updateBill(id, request));
     }
 
     @PatchMapping("/{id}/payment-status")
     @Operation(summary = "Apply a payment amount to bill status")
-    public ResponseEntity<BillResponseDTO> applyPayment(@PathVariable UUID id, @RequestParam Double amount) {
+    public ResponseEntity<BillResponseDTO> applyPayment(@PathVariable Long id, @RequestParam Double amount) {
         return ResponseEntity.ok(billingService.applyPayment(id, amount));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a bill")
-    public ResponseEntity<Void> deleteBill(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteBill(@PathVariable Long id) {
         billingService.deleteBill(id);
         return ResponseEntity.noContent().build();
     }

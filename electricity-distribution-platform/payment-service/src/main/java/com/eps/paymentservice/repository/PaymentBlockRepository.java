@@ -6,16 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface PaymentBlockRepository extends JpaRepository<PaymentBlock, UUID> {
+public interface PaymentBlockRepository extends JpaRepository<PaymentBlock, Long> {
 
-    Optional<PaymentBlock> findByCustomerIdAndIsBlockedTrue(UUID customerId);
+    Optional<PaymentBlock> findByCustomerIdAndIsBlockedTrue(Long customerId);
 
-    List<PaymentBlock> findByCustomerId(UUID customerId);
+    List<PaymentBlock> findByCustomerId(Long customerId);
 
-    Optional<PaymentBlock> findByBillId(UUID billId);
+    Optional<PaymentBlock> findByBillId(Long billId);
 
     long countByIsBlockedTrue();
 }

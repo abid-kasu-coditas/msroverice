@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS payments (
+  id BIGSERIAL PRIMARY KEY,
+  bill_id BIGINT NOT NULL,
+  customer_id BIGINT NOT NULL,
+  amount NUMERIC(14, 2) NOT NULL,
+  method VARCHAR(40) NOT NULL,
+  status VARCHAR(30) NOT NULL,
+  payment_date TIMESTAMP NOT NULL DEFAULT NOW(),
+  transaction_id VARCHAR(100) NOT NULL UNIQUE
+);

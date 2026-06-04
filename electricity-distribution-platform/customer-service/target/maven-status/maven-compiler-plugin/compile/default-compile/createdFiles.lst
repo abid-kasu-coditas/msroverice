@@ -12,4 +12,5 @@ com\eps\customerservice\mapper\CustomerMapper.class
 com\eps\customerservice\config\RestTemplateConfig.class
 com\eps\customerservice\service\CustomerService.class
 com\eps\customerservice\CustomerServiceApplication.class
+com\eps\customerservice\event\CustomerEventPublisher.class
 com\eps\customerservice\exception\GlobalExceptionHandler.class

@@ -1,0 +1,9 @@
+com\eps\platformservice\controller\PlatformTenantController.class
+com\eps\platformservice\dto\TenantStatusRequest.class
+com\eps\platformservice\repository\TenantRepository.class
+com\eps\platformservice\service\PlatformTenantService.class
+com\eps\platformservice\dto\TenantRegistrationRequest.class
+com\eps\platformservice\model\Tenant.class
+com\eps\platformservice\model\TenantStatus.class
+com\eps\platformservice\PlatformServiceApplication.class
+com\eps\platformservice\event\TenantEventPublisher.class

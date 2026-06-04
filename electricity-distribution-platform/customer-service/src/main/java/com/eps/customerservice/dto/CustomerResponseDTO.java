@@ -2,15 +2,20 @@ package com.eps.customerservice.dto;
 
 import com.eps.customerservice.model.CustomerStatus;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class CustomerResponseDTO {
 
-    private UUID id;
+    private Long id;
+    private Long globalCustomerId;
+    private String accountNumber;
     private String name;
     private String email;
     private String phone;
     private String address;
+    private String tariffType;
+    private Long cityId;
+    private Long areaId;
+    private Long crmId;
     private String city;
     private String district;
     private String state;
@@ -20,7 +25,7 @@ public class CustomerResponseDTO {
 
     public CustomerResponseDTO() {}
 
-    public CustomerResponseDTO(UUID id, String name, String email, String phone, String address,
+    public CustomerResponseDTO(Long id, String name, String email, String phone, String address,
                                 String city, String district, String state, CustomerStatus status,
                                 LocalDate registeredAt, Boolean active) {
         this.id = id;
@@ -37,8 +42,14 @@ public class CustomerResponseDTO {
     }
 
     // Getters and Setters
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getGlobalCustomerId() { return globalCustomerId; }
+    public void setGlobalCustomerId(Long globalCustomerId) { this.globalCustomerId = globalCustomerId; }
+
+    public String getAccountNumber() { return accountNumber; }
+    public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -51,6 +62,18 @@ public class CustomerResponseDTO {
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
+
+    public String getTariffType() { return tariffType; }
+    public void setTariffType(String tariffType) { this.tariffType = tariffType; }
+
+    public Long getCityId() { return cityId; }
+    public void setCityId(Long cityId) { this.cityId = cityId; }
+
+    public Long getAreaId() { return areaId; }
+    public void setAreaId(Long areaId) { this.areaId = areaId; }
+
+    public Long getCrmId() { return crmId; }
+    public void setCrmId(Long crmId) { this.crmId = crmId; }
 
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }

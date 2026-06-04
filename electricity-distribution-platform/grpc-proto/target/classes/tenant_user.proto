@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package eps.tenantuser;
+
+import "common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.eps.grpc.tenantuser";
+option java_outer_classname = "TenantUserProto";
+
+service TenantUserService {
+  rpc GetTechnicianByArea (common.IdRequest) returns (TechnicianResponse);
+  rpc GetBPOEmployeeByCity (common.IdRequest) returns (BPOEmployeeResponse);
+  rpc GetManagerByLevel (ManagerRequest) returns (ManagerResponse);
+}
+
+message ManagerRequest {
+  string level = 1;
+  int64 city_id = 2;
+  string tenant_id = 3;
+}
+
+message TechnicianResponse {
+  int64 id = 1;
+  string name = 2;
+  int64 area_id = 3;
+  string phone = 4;
+}
+
+message BPOEmployeeResponse {
+  int64 id = 1;
+  string name = 2;
+  int64 city_id = 3;
+  string phone = 4;
+}
+
+message ManagerResponse {
+  int64 id = 1;
+  string name = 2;
+  string level = 3;
+  string phone = 4;
+}

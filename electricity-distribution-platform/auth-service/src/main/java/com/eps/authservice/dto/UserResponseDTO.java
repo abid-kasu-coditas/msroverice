@@ -9,16 +9,25 @@ public class UserResponseDTO {
   private String username;
   private String email;
   private UserRole role;
+  private String userType;
+  private String tenantId;
   private Boolean active;
 
   public UserResponseDTO() {
   }
 
   public UserResponseDTO(UUID id, String username, String email, UserRole role, Boolean active) {
+    this(id, username, email, role, "PLATFORM", null, active);
+  }
+
+  public UserResponseDTO(UUID id, String username, String email, UserRole role,
+      String userType, String tenantId, Boolean active) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.role = role;
+    this.userType = userType;
+    this.tenantId = tenantId;
     this.active = active;
   }
 
@@ -52,6 +61,22 @@ public class UserResponseDTO {
 
   public void setRole(UserRole role) {
     this.role = role;
+  }
+
+  public String getUserType() {
+    return userType;
+  }
+
+  public void setUserType(String userType) {
+    this.userType = userType;
+  }
+
+  public String getTenantId() {
+    return tenantId;
+  }
+
+  public void setTenantId(String tenantId) {
+    this.tenantId = tenantId;
   }
 
   public Boolean getActive() {

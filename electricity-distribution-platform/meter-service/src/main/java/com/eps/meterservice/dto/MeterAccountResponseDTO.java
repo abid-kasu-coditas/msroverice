@@ -3,12 +3,11 @@ package com.eps.meterservice.dto;
 import com.eps.meterservice.model.MeterStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class MeterAccountResponseDTO {
 
-    private UUID id;
-    private UUID connectionId;
+    private Long id;
+    private Long connectionId;
     private String meterSerialNumber;
     private String meterType;
     private LocalDate installationDate;
@@ -17,7 +16,7 @@ public class MeterAccountResponseDTO {
 
     public MeterAccountResponseDTO() {}
 
-    public MeterAccountResponseDTO(UUID id, UUID connectionId, String meterSerialNumber,
+    public MeterAccountResponseDTO(Long id, Long connectionId, String meterSerialNumber,
                                    String meterType, LocalDate installationDate,
                                    MeterStatus status, LocalDateTime createdAt) {
         this.id = id;
@@ -29,11 +28,11 @@ public class MeterAccountResponseDTO {
         this.createdAt = createdAt;
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getConnectionId() { return connectionId; }
-    public void setConnectionId(UUID connectionId) { this.connectionId = connectionId; }
+    public Long getConnectionId() { return connectionId; }
+    public void setConnectionId(Long connectionId) { this.connectionId = connectionId; }
 
     public String getMeterSerialNumber() { return meterSerialNumber; }
     public void setMeterSerialNumber(String meterSerialNumber) { this.meterSerialNumber = meterSerialNumber; }

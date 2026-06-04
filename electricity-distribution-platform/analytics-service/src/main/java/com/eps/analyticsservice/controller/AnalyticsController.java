@@ -115,6 +115,18 @@ public class AnalyticsController {
         return ResponseEntity.ok(summary);
     }
 
+    @GetMapping("/platform/summary")
+    @Operation(summary = "Get platform event summary")
+    public ResponseEntity<Map<String, Object>> getPlatformSummary() {
+        return ResponseEntity.ok(analyticsService.platformSummary());
+    }
+
+    @GetMapping("/tenant/{tenantCode}/summary")
+    @Operation(summary = "Get tenant event summary")
+    public ResponseEntity<Map<String, Object>> getTenantSummary(@PathVariable String tenantCode) {
+        return ResponseEntity.ok(analyticsService.tenantSummary(tenantCode));
+    }
+
     /**
      * Get bill analytics
      */

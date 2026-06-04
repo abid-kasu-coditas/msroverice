@@ -2,6 +2,7 @@ C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\exception\CustomerNotFoundException.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\model\CustomerStatus.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\exception\EmailAlreadyExistsException.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\event\CustomerEventPublisher.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\exception\CustomerBlockedException.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\service\CustomerService.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\customer-service\src\main\java\com\eps\customerservice\model\Customer.java

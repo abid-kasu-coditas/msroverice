@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,14 +45,14 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get customer by ID")
-    public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable UUID id) {
+    public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id) {
         CustomerResponseDTO customerResponseDTO = customerService.getCustomerById(id);
         return ResponseEntity.ok().body(customerResponseDTO);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a customer")
-    public ResponseEntity<CustomerResponseDTO> updateCustomer(@PathVariable UUID id,
+    public ResponseEntity<CustomerResponseDTO> updateCustomer(@PathVariable Long id,
         @Valid @RequestBody CustomerRequestDTO customerRequestDTO) {
         CustomerResponseDTO customerResponseDTO = customerService.updateCustomer(id, customerRequestDTO);
         return ResponseEntity.ok().body(customerResponseDTO);
@@ -61,7 +60,7 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a customer")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }

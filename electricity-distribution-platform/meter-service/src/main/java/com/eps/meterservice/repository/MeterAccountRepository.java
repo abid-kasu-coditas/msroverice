@@ -3,16 +3,15 @@ package com.eps.meterservice.repository;
 import com.eps.meterservice.model.MeterAccount;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MeterAccountRepository extends JpaRepository<MeterAccount, UUID> {
+public interface MeterAccountRepository extends JpaRepository<MeterAccount, Long> {
 
     Optional<MeterAccount> findByMeterSerialNumber(String meterSerialNumber);
 
     boolean existsByMeterSerialNumber(String meterSerialNumber);
 
-    boolean existsByMeterSerialNumberAndIdNot(String meterSerialNumber, UUID id);
+    boolean existsByMeterSerialNumberAndIdNot(String meterSerialNumber, Long id);
 
-    List<MeterAccount> findByConnectionId(UUID connectionId);
+    List<MeterAccount> findByConnectionId(Long connectionId);
 }

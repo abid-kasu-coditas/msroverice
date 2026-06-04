@@ -17,6 +17,8 @@ public class UserRequestDTO {
   private String password;
 
   private UserRole role;
+  private String userType;
+  private String tenantId;
 
   public UserRequestDTO() {
   }
@@ -26,6 +28,7 @@ public class UserRequestDTO {
     this.email = email;
     this.password = password;
     this.role = role;
+    this.userType = "PLATFORM";
   }
 
   public String getUsername() {
@@ -58,5 +61,21 @@ public class UserRequestDTO {
 
   public void setRole(UserRole role) {
     this.role = role;
+  }
+
+  public String getUserType() {
+    return userType;
+  }
+
+  public void setUserType(String userType) {
+    this.userType = userType;
+  }
+
+  public String getTenantId() {
+    return tenantId;
+  }
+
+  public void setTenantId(String tenantId) {
+    this.tenantId = tenantId;
   }
 }

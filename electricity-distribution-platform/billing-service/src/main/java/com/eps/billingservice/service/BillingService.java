@@ -13,7 +13,6 @@ import com.eps.billingservice.client.MeterServiceClient;
 import com.eps.billingservice.client.PaymentBlockServiceClient;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 import com.eps.billingservice.exception.CustomerBlockedException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
@@ -49,7 +48,7 @@ public class BillingService {
         return billRepository.findAll().stream().map(BillMapper::toDTO).toList();
     }
 
-    public List<BillResponseDTO> getBillsByCustomerId(UUID customerId) {
+    public List<BillResponseDTO> getBillsByCustomerId(Long customerId) {
         return billRepository.findByCustomerId(customerId).stream().map(BillMapper::toDTO).toList();
     }
 
@@ -78,11 +77,11 @@ public class BillingService {
         return BillMapper.toDTO(savedBill);
     }
 
-    public BillResponseDTO getBillById(UUID id) {
+    public BillResponseDTO getBillById(Long id) {
         return BillMapper.toDTO(findBill(id));
     }
 
-    public BillResponseDTO updateBill(UUID id, BillRequestDTO request) {
+    public BillResponseDTO updateBill(Long id, BillRequestDTO request) {
         Bill bill = findBill(id);
         String billNumber = resolveBillNumber(request.getBillNumber(), bill.getBillNumber());
 
@@ -107,7 +106,7 @@ public class BillingService {
         return BillMapper.toDTO(billRepository.save(bill));
     }
 
-    public BillResponseDTO applyPayment(UUID id, Double amount) {
+    public BillResponseDTO applyPayment(Long id, Double amount) {
         Bill bill = findBill(id);
         if (amount >= bill.getTotalAmount()) {
             bill.setStatus(BillStatus.PAID);
@@ -117,14 +116,14 @@ public class BillingService {
         return BillMapper.toDTO(billRepository.save(bill));
     }
 
-    public void deleteBill(UUID id) {
+    public void deleteBill(Long id) {
         if (!billRepository.existsById(id)) {
             throw new BillNotFoundException("Bill not found with ID: " + id);
         }
         billRepository.deleteById(id);
     }
 
-    private Bill findBill(UUID id) {
+    private Bill findBill(Long id) {
         return billRepository.findById(id)
             .orElseThrow(() -> new BillNotFoundException("Bill not found with ID: " + id));
     }

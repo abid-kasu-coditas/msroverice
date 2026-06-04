@@ -11,4 +11,17 @@
   </parent>
   <artifactId>complaint-service</artifactId>
   <name>complaint-service</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.eps</groupId>
+      <artifactId>shared</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eps</groupId>
+      <artifactId>grpc-proto</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>

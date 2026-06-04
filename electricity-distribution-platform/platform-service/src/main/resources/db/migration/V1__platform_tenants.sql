@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS tenants (
+  id BIGSERIAL PRIMARY KEY,
+  code VARCHAR(100) NOT NULL UNIQUE,
+  company_name VARCHAR(255) NOT NULL,
+  contact_email VARCHAR(255) NOT NULL,
+  contact_phone VARCHAR(30),
+  status VARCHAR(30) NOT NULL DEFAULT 'REGISTERED',
+  schema_name VARCHAR(120) NOT NULL UNIQUE,
+  registered_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  provisioned_at TIMESTAMP,
+  suspended_at TIMESTAMP,
+  suspension_reason VARCHAR(500)
+);
+
+CREATE TABLE IF NOT EXISTS platform_users (
+  id BIGSERIAL PRIMARY KEY,
+  auth_user_id UUID NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

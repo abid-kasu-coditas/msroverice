@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package eps.events.tenant;
+
+option java_multiple_files = true;
+option java_package = "com.eps.grpc.events.tenant";
+option java_outer_classname = "TenantEventsProto";
+
+message TenantRegisteredEvent {
+  string event_id = 1;
+  string tenant_code = 2;
+  string company_name = 3;
+  string contact_email = 4;
+  string registered_at = 5;
+}
+
+message TenantProvisionedEvent {
+  string event_id = 1;
+  string tenant_code = 2;
+  string schema_name = 3;
+  string provisioned_at = 4;
+}
+
+message TenantSuspendedEvent {
+  string event_id = 1;
+  string tenant_code = 2;
+  string reason = 3;
+  string suspended_at = 4;
+}

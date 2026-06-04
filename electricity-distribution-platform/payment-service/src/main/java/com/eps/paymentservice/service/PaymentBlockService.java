@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,7 +22,7 @@ public class PaymentBlockService {
     /**
      * Block a customer from services due to unpaid bills
      */
-    public PaymentBlock blockCustomer(UUID customerId, UUID billId, String reason) {
+    public PaymentBlock blockCustomer(Long customerId, Long billId, String reason) {
         // Check if customer already has an active block
         Optional<PaymentBlock> existingBlock = paymentBlockRepository.findByCustomerIdAndIsBlockedTrue(customerId);
         if (existingBlock.isPresent()) {
@@ -38,7 +37,7 @@ public class PaymentBlockService {
     /**
      * Unblock a customer (when they pay the overdue amount)
      */
-    public PaymentBlock unblockCustomer(UUID customerId) {
+    public PaymentBlock unblockCustomer(Long customerId) {
         Optional<PaymentBlock> activeBlock = paymentBlockRepository.findByCustomerIdAndIsBlockedTrue(customerId);
         if (activeBlock.isPresent()) {
             PaymentBlock block = activeBlock.get();
@@ -53,21 +52,21 @@ public class PaymentBlockService {
     /**
      * Check if customer is currently blocked
      */
-    public Boolean isCustomerBlocked(UUID customerId) {
+    public Boolean isCustomerBlocked(Long customerId) {
         return paymentBlockRepository.findByCustomerIdAndIsBlockedTrue(customerId).isPresent();
     }
 
     /**
      * Get active block for customer
      */
-    public Optional<PaymentBlock> getActiveBlock(UUID customerId) {
+    public Optional<PaymentBlock> getActiveBlock(Long customerId) {
         return paymentBlockRepository.findByCustomerIdAndIsBlockedTrue(customerId);
     }
 
     /**
      * Get all blocks for customer (including historical)
      */
-    public List<PaymentBlock> getAllBlocksForCustomer(UUID customerId) {
+    public List<PaymentBlock> getAllBlocksForCustomer(Long customerId) {
         return paymentBlockRepository.findByCustomerId(customerId);
     }
 
@@ -81,21 +80,21 @@ public class PaymentBlockService {
     /**
      * Get block by bill ID
      */
-    public Optional<PaymentBlock> getBlockByBillId(UUID billId) {
+    public Optional<PaymentBlock> getBlockByBillId(Long billId) {
         return paymentBlockRepository.findByBillId(billId);
     }
 
     /**
      * Get block by ID
      */
-    public Optional<PaymentBlock> getBlockById(UUID blockId) {
+    public Optional<PaymentBlock> getBlockById(Long blockId) {
         return paymentBlockRepository.findById(blockId);
     }
 
     /**
      * Delete block
      */
-    public void deleteBlock(UUID blockId) {
+    public void deleteBlock(Long blockId) {
         paymentBlockRepository.deleteById(blockId);
     }
 }

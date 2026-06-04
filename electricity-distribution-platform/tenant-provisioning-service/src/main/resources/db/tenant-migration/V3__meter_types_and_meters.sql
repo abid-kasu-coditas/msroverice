@@ -1,0 +1,37 @@
+CREATE TABLE IF NOT EXISTS meter_types (
+  id BIGSERIAL PRIMARY KEY,
+  code VARCHAR(50) NOT NULL UNIQUE,
+  name VARCHAR(100) NOT NULL,
+  rate_per_unit NUMERIC(12, 2) NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS meters (
+  id BIGSERIAL PRIMARY KEY,
+  meter_serial_number VARCHAR(100) NOT NULL UNIQUE,
+  meter_type_id BIGINT NOT NULL,
+  installation_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  status VARCHAR(30) NOT NULL DEFAULT 'ACTIVE',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS customer_connections (
+  id BIGSERIAL PRIMARY KEY,
+  customer_id BIGINT NOT NULL,
+  meter_id BIGINT NOT NULL,
+  account_number VARCHAR(60) NOT NULL UNIQUE,
+  service_address VARCHAR(500) NOT NULL,
+  city_id BIGINT NOT NULL,
+  area_id BIGINT NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'ACTIVE',
+  connected_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS meter_reading_schedules (
+  id BIGSERIAL PRIMARY KEY,
+  connection_id BIGINT NOT NULL,
+  biller_id BIGINT,
+  next_due_date DATE NOT NULL,
+  frequency VARCHAR(20) NOT NULL DEFAULT 'MONTHLY',
+  is_active BOOLEAN NOT NULL DEFAULT TRUE
+);

@@ -10,7 +10,7 @@ public class CustomerMapper {
         if (dto == null) {
             return null;
         }
-        return new Customer(
+        Customer customer = new Customer(
             dto.getName(),
             dto.getEmail(),
             dto.getPhone(),
@@ -19,13 +19,24 @@ public class CustomerMapper {
             dto.getDistrict(),
             dto.getState()
         );
+        customer.setGlobalCustomerId(dto.getGlobalCustomerId());
+        customer.setAccountNumber(dto.getAccountNumber() == null || dto.getAccountNumber().isBlank()
+            ? "ACC-" + System.currentTimeMillis()
+            : dto.getAccountNumber());
+        customer.setTariffType(dto.getTariffType() == null || dto.getTariffType().isBlank()
+            ? "DOMESTIC"
+            : dto.getTariffType());
+        customer.setCityId(dto.getCityId());
+        customer.setAreaId(dto.getAreaId());
+        customer.setCrmId(dto.getCrmId());
+        return customer;
     }
 
     public static CustomerResponseDTO toDTO(Customer model) {
         if (model == null) {
             return null;
         }
-        return new CustomerResponseDTO(
+        CustomerResponseDTO dto = new CustomerResponseDTO(
             model.getId(),
             model.getName(),
             model.getEmail(),
@@ -38,5 +49,12 @@ public class CustomerMapper {
             model.getRegisteredAt(),
             model.getActive()
         );
+        dto.setGlobalCustomerId(model.getGlobalCustomerId());
+        dto.setAccountNumber(model.getAccountNumber());
+        dto.setTariffType(model.getTariffType());
+        dto.setCityId(model.getCityId());
+        dto.setAreaId(model.getAreaId());
+        dto.setCrmId(model.getCrmId());
+        return dto;
     }
 }

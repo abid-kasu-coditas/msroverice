@@ -3,13 +3,12 @@ package com.eps.billingservice.dto;
 import com.eps.billingservice.model.BillStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class BillResponseDTO {
 
-    private UUID id;
-    private UUID customerId;
-    private UUID meterId;
+    private Long id;
+    private Long customerId;
+    private Long meterId;
     private String billNumber;
     private LocalDate billDate;
     private LocalDate dueDate;
@@ -24,7 +23,7 @@ public class BillResponseDTO {
 
     public BillResponseDTO() {}
 
-    public BillResponseDTO(UUID id, UUID customerId, UUID meterId, String billNumber,
+    public BillResponseDTO(Long id, Long customerId, Long meterId, String billNumber,
                            LocalDate billDate, LocalDate dueDate, Double unitsConsumed,
                            Double baseAmount, Double taxes, Double penalties, Double discounts,
                            Double totalAmount, BillStatus status, LocalDateTime createdAt) {
@@ -44,14 +43,14 @@ public class BillResponseDTO {
         this.createdAt = createdAt;
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
-    public UUID getMeterId() { return meterId; }
-    public void setMeterId(UUID meterId) { this.meterId = meterId; }
+    public Long getMeterId() { return meterId; }
+    public void setMeterId(Long meterId) { this.meterId = meterId; }
 
     public String getBillNumber() { return billNumber; }
     public void setBillNumber(String billNumber) { this.billNumber = billNumber; }

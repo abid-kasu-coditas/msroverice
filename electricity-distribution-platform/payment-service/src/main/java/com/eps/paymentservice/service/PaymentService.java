@@ -12,7 +12,6 @@ import com.eps.paymentservice.model.PaymentStatus;
 import com.eps.paymentservice.repository.PaymentRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,11 +36,11 @@ public class PaymentService {
         return paymentRepository.findAll().stream().map(PaymentMapper::toDTO).toList();
     }
 
-    public List<PaymentResponseDTO> getPaymentsByBillId(UUID billId) {
+    public List<PaymentResponseDTO> getPaymentsByBillId(Long billId) {
         return paymentRepository.findByBillId(billId).stream().map(PaymentMapper::toDTO).toList();
     }
 
-    public List<PaymentResponseDTO> getPaymentsByCustomerId(UUID customerId) {
+    public List<PaymentResponseDTO> getPaymentsByCustomerId(Long customerId) {
         return paymentRepository.findByCustomerId(customerId).stream().map(PaymentMapper::toDTO).toList();
     }
 
@@ -62,11 +61,11 @@ public class PaymentService {
         return PaymentMapper.toDTO(savedPayment);
     }
 
-    public PaymentResponseDTO getPaymentById(UUID id) {
+    public PaymentResponseDTO getPaymentById(Long id) {
         return PaymentMapper.toDTO(findPayment(id));
     }
 
-    public PaymentResponseDTO updatePayment(UUID id, PaymentRequestDTO request) {
+    public PaymentResponseDTO updatePayment(Long id, PaymentRequestDTO request) {
         Payment payment = findPayment(id);
         String transactionId = request.getTransactionId() == null || request.getTransactionId().isBlank()
             ? payment.getTransactionId() : request.getTransactionId();
@@ -90,14 +89,14 @@ public class PaymentService {
         return PaymentMapper.toDTO(savedPayment);
     }
 
-    public void deletePayment(UUID id) {
+    public void deletePayment(Long id) {
         if (!paymentRepository.existsById(id)) {
             throw new PaymentNotFoundException("Payment not found with ID: " + id);
         }
         paymentRepository.deleteById(id);
     }
 
-    private Payment findPayment(UUID id) {
+    private Payment findPayment(Long id) {
         return paymentRepository.findById(id)
             .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + id));
     }

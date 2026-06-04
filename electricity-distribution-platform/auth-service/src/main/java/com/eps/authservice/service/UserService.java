@@ -41,7 +41,9 @@ public class UserService {
         userRequestDTO.getUsername(),
         userRequestDTO.getEmail(),
         passwordEncoder.encode(userRequestDTO.getPassword()),
-        userRequestDTO.getRole());
+        userRequestDTO.getRole(),
+        userRequestDTO.getUserType(),
+        userRequestDTO.getTenantId());
 
     User savedUser = userRepository.save(user);
     return convertToResponseDTO(savedUser);
@@ -100,6 +102,8 @@ public class UserService {
     user.setUsername(userRequestDTO.getUsername());
     user.setEmail(userRequestDTO.getEmail());
     user.setRole(userRequestDTO.getRole());
+    user.setUserType(userRequestDTO.getUserType());
+    user.setTenantId(userRequestDTO.getTenantId());
 
     if (userRequestDTO.getPassword() != null && !userRequestDTO.getPassword().isEmpty()) {
       user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
@@ -132,6 +136,8 @@ public class UserService {
         user.getUsername(),
         user.getEmail(),
         user.getRole(),
+        user.getUserType(),
+        user.getTenantId(),
         user.getActive());
   }
 }

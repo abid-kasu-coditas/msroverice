@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS customer_identities (
+  id BIGSERIAL PRIMARY KEY,
+  auth_user_id UUID,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS customers (
+  id BIGSERIAL PRIMARY KEY,
+  global_customer_id BIGINT,
+  account_number VARCHAR(60) NOT NULL UNIQUE,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  address VARCHAR(500) NOT NULL,
+  tariff_type VARCHAR(50) NOT NULL,
+  city_id BIGINT NOT NULL,
+  area_id BIGINT NOT NULL,
+  crm_id BIGINT,
+  city VARCHAR(100),
+  district VARCHAR(100),
+  state VARCHAR(100),
+  status VARCHAR(30) NOT NULL DEFAULT 'ACTIVE',
+  registered_at DATE NOT NULL DEFAULT CURRENT_DATE,
+  active BOOLEAN NOT NULL DEFAULT TRUE
+);

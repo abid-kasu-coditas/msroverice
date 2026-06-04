@@ -14,4 +14,17 @@
   <name>billing-service</name>
   <description>Billing Service - handles bill generation and management</description>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.eps</groupId>
+      <artifactId>shared</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eps</groupId>
+      <artifactId>grpc-proto</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
 </project>

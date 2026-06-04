@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package eps.events.complaint;
+
+option java_multiple_files = true;
+option java_package = "com.eps.grpc.events.complaint";
+option java_outer_classname = "ComplaintEventsProto";
+
+message ComplaintRaisedEvent {
+  string event_id = 1;
+  string tenant_code = 2;
+  int64 complaint_id = 3;
+  int64 customer_id = 4;
+  int64 bpo_employee_id = 5;
+  string raised_at = 6;
+}
+
+message ComplaintResolvedEvent {
+  string event_id = 1;
+  string tenant_code = 2;
+  int64 complaint_id = 3;
+  int64 technician_id = 4;
+  string resolved_at = 5;
+}
+
+message ComplaintEscalatedEvent {
+  string event_id = 1;
+  string tenant_code = 2;
+  int64 complaint_id = 3;
+  string level = 4;
+  int64 manager_id = 5;
+  string escalated_at = 6;
+}

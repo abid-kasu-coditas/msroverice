@@ -9,18 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "complaints")
 public class Complaint {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private UUID customerId;
+    private Long customerId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -42,9 +41,9 @@ public class Complaint {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    private UUID assignedTechnicianId;
+    private Long assignedTechnicianId;
 
-    private UUID assignedByUserId;
+    private Long assignedByUserId;
 
     private LocalDateTime assignedAt;
 
@@ -55,7 +54,7 @@ public class Complaint {
 
     public Complaint() {}
 
-    public Complaint(UUID customerId, ComplaintCategory category, String description, ComplaintStatus status,
+    public Complaint(Long customerId, ComplaintCategory category, String description, ComplaintStatus status,
                      String state, String district, String city) {
         this.customerId = customerId;
         this.category = category;
@@ -67,11 +66,11 @@ public class Complaint {
         this.createdAt = LocalDateTime.now();
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public ComplaintCategory getCategory() { return category; }
     public void setCategory(ComplaintCategory category) { this.category = category; }
@@ -94,11 +93,11 @@ public class Complaint {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public UUID getAssignedTechnicianId() { return assignedTechnicianId; }
-    public void setAssignedTechnicianId(UUID assignedTechnicianId) { this.assignedTechnicianId = assignedTechnicianId; }
+    public Long getAssignedTechnicianId() { return assignedTechnicianId; }
+    public void setAssignedTechnicianId(Long assignedTechnicianId) { this.assignedTechnicianId = assignedTechnicianId; }
 
-    public UUID getAssignedByUserId() { return assignedByUserId; }
-    public void setAssignedByUserId(UUID assignedByUserId) { this.assignedByUserId = assignedByUserId; }
+    public Long getAssignedByUserId() { return assignedByUserId; }
+    public void setAssignedByUserId(Long assignedByUserId) { this.assignedByUserId = assignedByUserId; }
 
     public LocalDateTime getAssignedAt() { return assignedAt; }
     public void setAssignedAt(LocalDateTime assignedAt) { this.assignedAt = assignedAt; }

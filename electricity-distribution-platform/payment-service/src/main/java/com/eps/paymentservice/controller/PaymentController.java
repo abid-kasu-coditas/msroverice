@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +33,8 @@ public class PaymentController {
     @GetMapping
     @Operation(summary = "Get all payments")
     public ResponseEntity<List<PaymentResponseDTO>> getPayments(
-        @RequestParam(required = false) UUID billId,
-        @RequestParam(required = false) UUID customerId) {
+        @RequestParam(required = false) Long billId,
+        @RequestParam(required = false) Long customerId) {
         if (billId != null) {
             return ResponseEntity.ok(paymentService.getPaymentsByBillId(billId));
         }
@@ -59,20 +58,20 @@ public class PaymentController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get payment by ID")
-    public ResponseEntity<PaymentResponseDTO> getPaymentById(@PathVariable UUID id) {
+    public ResponseEntity<PaymentResponseDTO> getPaymentById(@PathVariable Long id) {
         return ResponseEntity.ok(paymentService.getPaymentById(id));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a payment")
-    public ResponseEntity<PaymentResponseDTO> updatePayment(@PathVariable UUID id,
+    public ResponseEntity<PaymentResponseDTO> updatePayment(@PathVariable Long id,
         @Valid @RequestBody PaymentRequestDTO request) {
         return ResponseEntity.ok(paymentService.updatePayment(id, request));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a payment")
-    public ResponseEntity<Void> deletePayment(@PathVariable UUID id) {
+    public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
         paymentService.deletePayment(id);
         return ResponseEntity.noContent().build();
     }

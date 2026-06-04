@@ -1,2 +1,3 @@
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\api-gateway\src\main\java\com\eps\apigateway\filter\JwtValidationGatewayFilterFactory.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\api-gateway\src\main\java\com\eps\apigateway\filter\TenantSuspensionChecker.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\api-gateway\src\main\java\com\eps\apigateway\ApiGatewayApplication.java

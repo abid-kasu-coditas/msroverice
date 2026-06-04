@@ -12,7 +12,6 @@ import com.eps.complaintservice.model.ComplaintStatus;
 import com.eps.complaintservice.repository.ComplaintRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -40,7 +39,7 @@ public class ComplaintService {
         return complaintRepository.findAll().stream().map(ComplaintMapper::toDTO).toList();
     }
 
-    public List<ComplaintResponseDTO> getComplaintsByCustomerId(UUID customerId) {
+    public List<ComplaintResponseDTO> getComplaintsByCustomerId(Long customerId) {
         return complaintRepository.findByCustomerId(customerId).stream().map(ComplaintMapper::toDTO).toList();
     }
 
@@ -58,11 +57,11 @@ public class ComplaintService {
         return ComplaintMapper.toDTO(complaint);
     }
 
-    public ComplaintResponseDTO getComplaintById(UUID id) {
+    public ComplaintResponseDTO getComplaintById(Long id) {
         return ComplaintMapper.toDTO(findComplaint(id));
     }
 
-    public ComplaintResponseDTO updateComplaint(UUID id, ComplaintRequestDTO request) {
+    public ComplaintResponseDTO updateComplaint(Long id, ComplaintRequestDTO request) {
         Complaint complaint = findComplaint(id);
         complaint.setCustomerId(request.getCustomerId());
         complaint.setCategory(request.getCategory());
@@ -74,7 +73,7 @@ public class ComplaintService {
         return ComplaintMapper.toDTO(complaintRepository.save(complaint));
     }
 
-    public ComplaintResponseDTO assignTechnician(UUID id, UUID technicianId, UUID assignedByUserId) {
+    public ComplaintResponseDTO assignTechnician(Long id, Long technicianId, Long assignedByUserId) {
         Complaint complaint = findComplaint(id);
         if (complaint.getStatus() == ComplaintStatus.RESOLVED
             || complaint.getStatus() == ComplaintStatus.CLOSED) {
@@ -98,9 +97,9 @@ public class ComplaintService {
         return ComplaintMapper.toDTO(assignedComplaint);
     }
 
-    public ComplaintResponseDTO resolveComplaint(UUID id, String resolution) {
+    public ComplaintResponseDTO resolveComplaint(Long id, String resolution) {
         Complaint complaint = findComplaint(id);
-        UUID assignedTechnicianId = complaint.getAssignedTechnicianId();
+        Long assignedTechnicianId = complaint.getAssignedTechnicianId();
         complaint.setStatus(ComplaintStatus.RESOLVED);
         complaint.setResolution(resolution);
         complaint.setResolvedAt(LocalDateTime.now());
@@ -112,19 +111,19 @@ public class ComplaintService {
         return ComplaintMapper.toDTO(resolvedComplaint);
     }
 
-    public void deleteComplaint(UUID id) {
+    public void deleteComplaint(Long id) {
         if (!complaintRepository.existsById(id)) {
             throw new ComplaintNotFoundException("Complaint not found with ID: " + id);
         }
         complaintRepository.deleteById(id);
     }
 
-    private Complaint findComplaint(UUID id) {
+    private Complaint findComplaint(Long id) {
         return complaintRepository.findById(id)
             .orElseThrow(() -> new ComplaintNotFoundException("Complaint not found with ID: " + id));
     }
 
-    private EmployeeSnapshot getActiveTechnician(UUID technicianId) {
+    private EmployeeSnapshot getActiveTechnician(Long technicianId) {
         try {
             EmployeeSnapshot technician = employeeServiceClient.get()
                 .uri("/api/employees/{id}/role/TECHNICIAN/active", technicianId)
@@ -143,7 +142,7 @@ public class ComplaintService {
         }
     }
 
-    private void markTechnicianAssigned(UUID technicianId) {
+    private void markTechnicianAssigned(Long technicianId) {
         try {
             employeeServiceClient.put()
                 .uri("/api/employees/{id}/technician-assignment/assign", technicianId)
@@ -155,7 +154,7 @@ public class ComplaintService {
         }
     }
 
-    private void releaseTechnician(UUID technicianId) {
+    private void releaseTechnician(Long technicianId) {
         try {
             employeeServiceClient.put()
                 .uri("/api/employees/{id}/technician-assignment/release", technicianId)
@@ -191,7 +190,7 @@ public class ComplaintService {
         return value != null && !value.trim().isEmpty();
     }
 
-    private record EmployeeSnapshot(UUID id, String role, String status, String assignedState,
+    private record EmployeeSnapshot(Long id, String role, String status, String assignedState,
                                     String assignedDistrict, String assignedCity) {
     }
 }

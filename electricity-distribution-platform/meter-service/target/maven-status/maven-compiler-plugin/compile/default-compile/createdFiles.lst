@@ -56,3 +56,4 @@ com\eps\meterservice\repository\MeterAccountRepository.class
 com\eps\meterservice\grpc\GetMeterReadingResponseOrBuilder.class
 com\eps\meterservice\grpc\MeterServiceGrpc$MeterServiceBlockingStub.class
 com\eps\meterservice\grpc\RecordMeterReadingResponseOrBuilder.class
+com\eps\meterservice\grpc\MeterRateGrpcService.class

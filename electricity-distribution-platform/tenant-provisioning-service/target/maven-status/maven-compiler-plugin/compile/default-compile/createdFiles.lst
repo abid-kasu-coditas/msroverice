@@ -1,0 +1,4 @@
+com\eps\tenantprovisioning\controller\TenantProvisioningController.class
+com\eps\tenantprovisioning\kafka\TenantRegisteredConsumer.class
+com\eps\tenantprovisioning\service\TenantSchemaProvisioningService.class
+com\eps\tenantprovisioning\TenantProvisioningServiceApplication.class

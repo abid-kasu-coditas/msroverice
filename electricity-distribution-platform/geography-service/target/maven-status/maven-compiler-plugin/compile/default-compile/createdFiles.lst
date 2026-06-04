@@ -1,0 +1,12 @@
+com\eps\geographyservice\service\GeographyLookupService.class
+com\eps\geographyservice\model\StateMaster.class
+com\eps\geographyservice\GeographyServiceApplication.class
+com\eps\geographyservice\model\City.class
+com\eps\geographyservice\model\District.class
+com\eps\geographyservice\repository\StateRepository.class
+com\eps\geographyservice\repository\DistrictRepository.class
+com\eps\geographyservice\grpc\GeographyGrpcService.class
+com\eps\geographyservice\model\Area.class
+com\eps\geographyservice\repository\CityRepository.class
+com\eps\geographyservice\repository\AreaRepository.class
+com\eps\geographyservice\controller\GeographyController.class

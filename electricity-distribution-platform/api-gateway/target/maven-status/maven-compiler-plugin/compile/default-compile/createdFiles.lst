@@ -1,3 +1,4 @@
 com\eps\apigateway\ApiGatewayApplication.class
 com\eps\apigateway\filter\JwtValidationGatewayFilterFactory.class
 com\eps\apigateway\filter\JwtValidationGatewayFilterFactory$Config.class
+com\eps\apigateway\filter\TenantSuspensionChecker.class

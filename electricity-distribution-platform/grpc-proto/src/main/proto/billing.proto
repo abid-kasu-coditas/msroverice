@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package eps.billing;
+
+option java_multiple_files = true;
+option java_package = "com.eps.grpc.billing";
+option java_outer_classname = "BillingProto";
+
+service BillingGrpcService {
+  rpc GenerateBill (MeterReadingRequest) returns (BillResponse);
+  rpc GetBillStatus (BillStatusRequest) returns (BillStatusResponse);
+}
+
+message MeterReadingRequest {
+  int64 connection_id = 1;
+  double reading_value = 2;
+  string read_at = 3;
+  string tenant_id = 4;
+}
+
+message BillResponse {
+  int64 bill_id = 1;
+  string bill_number = 2;
+  double units_consumed = 3;
+  double total_amount = 4;
+  string status = 5;
+}
+
+message BillStatusRequest {
+  int64 bill_id = 1;
+  string tenant_id = 2;
+}
+
+message BillStatusResponse {
+  int64 bill_id = 1;
+  string status = 2;
+  double total_amount = 3;
+}

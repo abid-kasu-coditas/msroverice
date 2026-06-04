@@ -14,4 +14,5 @@ com\eps\billingservice\repository\BillRepository.class
 com\eps\billingservice\service\BillingService.class
 com\eps\billingservice\mapper\BillMapper.class
 com\eps\billingservice\event\BillEventPublisher.class
+com\eps\billingservice\grpc\BillingGrpcServiceImpl.class
 com\eps\billingservice\dto\BillRequestDTO.class

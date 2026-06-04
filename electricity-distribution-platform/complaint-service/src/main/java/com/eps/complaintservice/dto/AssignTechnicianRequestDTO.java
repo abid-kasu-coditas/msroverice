@@ -1,20 +1,19 @@
 package com.eps.complaintservice.dto;
 
 import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
 
 public class AssignTechnicianRequestDTO {
 
     @NotNull(message = "Technician ID is required")
-    private UUID technicianId;
+    private Long technicianId;
 
     public AssignTechnicianRequestDTO() {}
 
-    public UUID getTechnicianId() {
+    public Long getTechnicianId() {
         return technicianId;
     }
 
-    public void setTechnicianId(UUID technicianId) {
+    public void setTechnicianId(Long technicianId) {
         this.technicianId = technicianId;
     }
 }

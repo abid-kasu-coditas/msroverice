@@ -3,13 +3,12 @@ package com.eps.paymentservice.dto;
 import com.eps.paymentservice.model.PaymentMethod;
 import com.eps.paymentservice.model.PaymentStatus;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class PaymentResponseDTO {
 
-    private UUID id;
-    private UUID billId;
-    private UUID customerId;
+    private Long id;
+    private Long billId;
+    private Long customerId;
     private Double amount;
     private PaymentMethod method;
     private PaymentStatus status;
@@ -18,7 +17,7 @@ public class PaymentResponseDTO {
 
     public PaymentResponseDTO() {}
 
-    public PaymentResponseDTO(UUID id, UUID billId, UUID customerId, Double amount,
+    public PaymentResponseDTO(Long id, Long billId, Long customerId, Double amount,
                               PaymentMethod method, PaymentStatus status,
                               LocalDateTime paymentDate, String transactionId) {
         this.id = id;
@@ -31,14 +30,14 @@ public class PaymentResponseDTO {
         this.transactionId = transactionId;
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public UUID getBillId() { return billId; }
-    public void setBillId(UUID billId) { this.billId = billId; }
+    public Long getBillId() { return billId; }
+    public void setBillId(Long billId) { this.billId = billId; }
 
-    public UUID getCustomerId() { return customerId; }
-    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public Double getAmount() { return amount; }
     public void setAmount(Double amount) { this.amount = amount; }

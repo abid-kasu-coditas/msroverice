@@ -1,7 +1,6 @@
 package com.eps.billingservice.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +30,7 @@ public class MeterServiceClient {
      * @return JsonNode containing meter reading details
      * @throws RestClientException if the request fails
      */
-    public JsonNode getMeterReadings(UUID meterId) {
+    public JsonNode getMeterReadings(Long meterId) {
         try {
             String url = meterServiceUrl + "/api/meters/{id}/readings/latest";
             JsonNode response = restTemplate.getForObject(url, JsonNode.class, meterId);
@@ -49,7 +48,7 @@ public class MeterServiceClient {
      * @return JsonNode containing meter account details
      * @throws RestClientException if the request fails
      */
-    public JsonNode getMeterAccount(UUID meterId) {
+    public JsonNode getMeterAccount(Long meterId) {
         try {
             String url = meterServiceUrl + "/api/meters/{id}";
             JsonNode response = restTemplate.getForObject(url, JsonNode.class, meterId);

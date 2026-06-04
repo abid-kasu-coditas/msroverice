@@ -28,6 +28,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column(name = "user_type", nullable = false)
+    private String userType = "PLATFORM";
+
+    @Column(name = "tenant_id")
+    private String tenantId;
+
     @Column(nullable = false)
     private Boolean active = true;
 
@@ -43,10 +49,17 @@ public class User implements UserDetails {
     public User() {}
 
     public User(String username, String email, String password, UserRole role) {
+        this(username, email, password, role, "PLATFORM", null);
+    }
+
+    public User(String username, String email, String password, UserRole role,
+                String userType, String tenantId) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.userType = userType == null || userType.isBlank() ? "PLATFORM" : userType;
+        this.tenantId = tenantId;
         this.active = true;
         this.accountNonExpired = true;
         this.accountNonLocked = true;
@@ -119,6 +132,22 @@ public class User implements UserDetails {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     public Boolean getActive() {

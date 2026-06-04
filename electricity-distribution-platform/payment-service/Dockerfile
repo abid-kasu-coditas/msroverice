@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY target/*.jar payment-service.jar
 
-EXPOSE 8086
+EXPOSE 8093
 
 ENTRYPOINT ["java", "-jar", "payment-service.jar"]

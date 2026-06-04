@@ -15,7 +15,6 @@ import com.eps.meterservice.repository.MeterAccountRepository;
 import com.eps.meterservice.repository.MeterReadingRepository;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +34,7 @@ public class MeterService {
         return meterAccountRepository.findAll().stream().map(MeterMapper::toDTO).toList();
     }
 
-    public List<MeterAccountResponseDTO> getMeterAccountsByConnectionId(UUID connectionId) {
+    public List<MeterAccountResponseDTO> getMeterAccountsByConnectionId(Long connectionId) {
         return meterAccountRepository.findByConnectionId(connectionId).stream().map(MeterMapper::toDTO).toList();
     }
 
@@ -49,11 +48,11 @@ public class MeterService {
         return MeterMapper.toDTO(newMeterAccount);
     }
 
-    public MeterAccountResponseDTO getMeterAccountById(UUID id) {
+    public MeterAccountResponseDTO getMeterAccountById(Long id) {
         return MeterMapper.toDTO(findMeterAccount(id));
     }
 
-    public MeterAccountResponseDTO updateMeterAccount(UUID id, MeterAccountRequestDTO request) {
+    public MeterAccountResponseDTO updateMeterAccount(Long id, MeterAccountRequestDTO request) {
         MeterAccount meterAccount = findMeterAccount(id);
 
         if (meterAccountRepository.existsByMeterSerialNumberAndIdNot(request.getMeterSerialNumber(), id)) {
@@ -72,7 +71,7 @@ public class MeterService {
     }
 
     @Transactional
-    public void deleteMeterAccount(UUID id) {
+    public void deleteMeterAccount(Long id) {
         if (!meterAccountRepository.existsById(id)) {
             throw new MeterAccountNotFoundException("Meter account not found with ID: " + id);
         }
@@ -80,7 +79,7 @@ public class MeterService {
         meterAccountRepository.deleteById(id);
     }
 
-    public List<MeterReadingResponseDTO> getReadings(UUID meterAccountId) {
+    public List<MeterReadingResponseDTO> getReadings(Long meterAccountId) {
         findMeterAccount(meterAccountId);
         return meterReadingRepository.findByMeterAccountIdOrderByReadingDateDesc(meterAccountId)
             .stream()
@@ -88,7 +87,7 @@ public class MeterService {
             .toList();
     }
 
-    public MeterReadingResponseDTO getLatestReading(UUID meterAccountId) {
+    public MeterReadingResponseDTO getLatestReading(Long meterAccountId) {
         findMeterAccount(meterAccountId);
         MeterReading reading = meterReadingRepository.findTopByMeterAccountIdOrderByReadingDateDesc(meterAccountId)
             .orElseThrow(() -> new MeterReadingNotFoundException(
@@ -96,7 +95,7 @@ public class MeterService {
         return MeterMapper.toDTO(reading);
     }
 
-    public MeterReadingResponseDTO recordMeterReading(UUID meterAccountId, MeterReadingRequestDTO request) {
+    public MeterReadingResponseDTO recordMeterReading(Long meterAccountId, MeterReadingRequestDTO request) {
         findMeterAccount(meterAccountId);
         Double previousReading = resolvePreviousReading(meterAccountId, request.getPreviousReading());
 
@@ -114,12 +113,12 @@ public class MeterService {
         return MeterMapper.toDTO(meterReadingRepository.save(meterReading));
     }
 
-    private MeterAccount findMeterAccount(UUID id) {
+    private MeterAccount findMeterAccount(Long id) {
         return meterAccountRepository.findById(id)
             .orElseThrow(() -> new MeterAccountNotFoundException("Meter account not found with ID: " + id));
     }
 
-    private Double resolvePreviousReading(UUID meterAccountId, Double requestedPreviousReading) {
+    private Double resolvePreviousReading(Long meterAccountId, Double requestedPreviousReading) {
         if (requestedPreviousReading != null) {
             return requestedPreviousReading;
         }

@@ -6,7 +6,6 @@ import com.eps.meterservice.dto.MeterReadingRequestDTO;
 import com.eps.meterservice.dto.MeterReadingResponseDTO;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
-import java.util.UUID;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class MeterGrpcService extends MeterServiceGrpc.MeterServiceImplBase {
                                    StreamObserver<CreateMeterAccountResponse> responseObserver) {
         try {
             MeterAccountRequestDTO meterRequest = new MeterAccountRequestDTO(
-                UUID.fromString(request.getConnectionId()),
+                Long.parseLong(request.getConnectionId()),
                 request.getMeterSerialNumber(),
                 request.getMeterType(),
                 null,
@@ -50,7 +49,7 @@ public class MeterGrpcService extends MeterServiceGrpc.MeterServiceImplBase {
     public void getMeterReading(GetMeterReadingRequest request,
                                 StreamObserver<GetMeterReadingResponse> responseObserver) {
         try {
-            MeterReadingResponseDTO reading = meterService.getLatestReading(UUID.fromString(request.getMeterId()));
+            MeterReadingResponseDTO reading = meterService.getLatestReading(Long.parseLong(request.getMeterId()));
             GetMeterReadingResponse response = GetMeterReadingResponse.newBuilder()
                 .setCurrentReading(reading.getCurrentReading())
                 .setPreviousReading(reading.getPreviousReading())
@@ -74,7 +73,7 @@ public class MeterGrpcService extends MeterServiceGrpc.MeterServiceImplBase {
                 null
             );
             MeterReadingResponseDTO reading = meterService.recordMeterReading(
-                UUID.fromString(request.getMeterId()),
+                Long.parseLong(request.getMeterId()),
                 readingRequest
             );
             RecordMeterReadingResponse response = RecordMeterReadingResponse.newBuilder()

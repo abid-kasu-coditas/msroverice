@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS tenant_users (
+  id BIGSERIAL PRIMARY KEY,
+  auth_user_id UUID,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  phone VARCHAR(30),
+  role VARCHAR(50) NOT NULL,
+  city_id BIGINT,
+  area_id BIGINT,
+  manager_id BIGINT,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

@@ -76,4 +76,14 @@ public class AnalyticsConsumer {
             System.err.println("Error processing connection-activated event: " + e.getMessage());
         }
     }
+
+    @KafkaListener(topics = {
+        "tenant-registered", "tenant-provisioned", "tenant-suspended",
+        "customer-onboarded", "bill-generated", "payment-received",
+        "complaint-raised", "complaint-resolved", "complaint-escalated"
+    }, groupId = "analytics-tenant-stats-group")
+    public void recordTenantStat(String message, org.apache.kafka.clients.consumer.ConsumerRecord<String, String> record) {
+        String tenantCode = record.key() == null ? "platform" : record.key();
+        analyticsService.recordTenantEvent(tenantCode, record.topic());
+    }
 }

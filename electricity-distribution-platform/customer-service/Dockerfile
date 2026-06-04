@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY target/*.jar customer-service.jar
 
-EXPOSE 8082
+EXPOSE 8081
 
 ENTRYPOINT ["java", "-jar", "customer-service.jar"]

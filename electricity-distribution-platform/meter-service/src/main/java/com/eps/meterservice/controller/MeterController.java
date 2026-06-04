@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +34,7 @@ public class MeterController {
     @GetMapping
     @Operation(summary = "Get all meter accounts")
     public ResponseEntity<List<MeterAccountResponseDTO>> getMeterAccounts(
-        @RequestParam(required = false) UUID connectionId) {
+        @RequestParam(required = false) Long connectionId) {
         if (connectionId != null) {
             return ResponseEntity.ok(meterService.getMeterAccountsByConnectionId(connectionId));
         }
@@ -51,40 +50,40 @@ public class MeterController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get meter account by ID")
-    public ResponseEntity<MeterAccountResponseDTO> getMeterAccountById(@PathVariable UUID id) {
+    public ResponseEntity<MeterAccountResponseDTO> getMeterAccountById(@PathVariable Long id) {
         return ResponseEntity.ok(meterService.getMeterAccountById(id));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a meter account")
-    public ResponseEntity<MeterAccountResponseDTO> updateMeterAccount(@PathVariable UUID id,
+    public ResponseEntity<MeterAccountResponseDTO> updateMeterAccount(@PathVariable Long id,
         @Valid @RequestBody MeterAccountRequestDTO request) {
         return ResponseEntity.ok(meterService.updateMeterAccount(id, request));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a meter account")
-    public ResponseEntity<Void> deleteMeterAccount(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteMeterAccount(@PathVariable Long id) {
         meterService.deleteMeterAccount(id);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/readings")
     @Operation(summary = "Record a meter reading")
-    public ResponseEntity<MeterReadingResponseDTO> recordMeterReading(@PathVariable UUID id,
+    public ResponseEntity<MeterReadingResponseDTO> recordMeterReading(@PathVariable Long id,
         @Valid @RequestBody MeterReadingRequestDTO request) {
         return ResponseEntity.ok(meterService.recordMeterReading(id, request));
     }
 
     @GetMapping("/{id}/readings")
     @Operation(summary = "Get readings for a meter account")
-    public ResponseEntity<List<MeterReadingResponseDTO>> getReadings(@PathVariable UUID id) {
+    public ResponseEntity<List<MeterReadingResponseDTO>> getReadings(@PathVariable Long id) {
         return ResponseEntity.ok(meterService.getReadings(id));
     }
 
     @GetMapping("/{id}/readings/latest")
     @Operation(summary = "Get latest reading for a meter account")
-    public ResponseEntity<MeterReadingResponseDTO> getLatestReading(@PathVariable UUID id) {
+    public ResponseEntity<MeterReadingResponseDTO> getLatestReading(@PathVariable Long id) {
         return ResponseEntity.ok(meterService.getLatestReading(id));
     }
 }

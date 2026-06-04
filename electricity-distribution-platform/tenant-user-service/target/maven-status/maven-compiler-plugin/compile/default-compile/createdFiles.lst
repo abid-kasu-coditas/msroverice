@@ -1,0 +1,7 @@
+com\eps\tenantuserservice\controller\TenantUserController.class
+com\eps\tenantuserservice\TenantUserServiceApplication.class
+com\eps\tenantuserservice\service\TenantUserManagementService.class
+com\eps\tenantuserservice\model\TenantUser.class
+com\eps\tenantuserservice\repository\TenantUserRepository.class
+com\eps\tenantuserservice\dto\TenantUserRequest.class
+com\eps\tenantuserservice\grpc\TenantUserGrpcService.class
