@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -53,7 +52,7 @@ public class NotificationController {
      */
     @GetMapping("/{id}")
     @Operation(summary = "Get notification by ID", description = "Retrieve a specific notification")
-    public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable UUID id) {
+    public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable Long id) {
         Notification notification = notificationService.getNotificationById(id);
         if (notification != null) {
             return ResponseEntity.ok(notificationMapper.toDTO(notification));
@@ -67,7 +66,7 @@ public class NotificationController {
     @GetMapping("/customer/{customerId}")
     @Operation(summary = "Get notifications by customer", description = "Retrieve all notifications for a customer")
     public ResponseEntity<Page<NotificationDTO>> getNotificationsByCustomerId(
-            @PathVariable UUID customerId,
+            @PathVariable Long customerId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -145,7 +144,7 @@ public class NotificationController {
      */
     @PostMapping("/{id}/send-email")
     @Operation(summary = "Send email notification", description = "Send email for a specific notification")
-    public ResponseEntity<NotificationDTO> sendEmailNotification(@PathVariable UUID id) {
+    public ResponseEntity<NotificationDTO> sendEmailNotification(@PathVariable Long id) {
         Notification notification = notificationService.sendEmailNotification(id);
         if (notification != null) {
             return ResponseEntity.ok(notificationMapper.toDTO(notification));
@@ -158,7 +157,7 @@ public class NotificationController {
      */
     @PostMapping("/{id}/send-sms")
     @Operation(summary = "Send SMS notification", description = "Send SMS for a specific notification")
-    public ResponseEntity<NotificationDTO> sendSmsNotification(@PathVariable UUID id) {
+    public ResponseEntity<NotificationDTO> sendSmsNotification(@PathVariable Long id) {
         Notification notification = notificationService.sendSmsNotification(id);
         if (notification != null) {
             return ResponseEntity.ok(notificationMapper.toDTO(notification));
@@ -208,7 +207,7 @@ public class NotificationController {
      */
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete notification", description = "Delete a specific notification")
-    public ResponseEntity<Void> deleteNotification(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteNotification(@PathVariable Long id) {
         notificationService.deleteNotification(id);
         return ResponseEntity.noContent().build();
     }

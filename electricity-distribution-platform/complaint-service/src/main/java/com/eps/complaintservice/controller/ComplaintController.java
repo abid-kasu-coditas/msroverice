@@ -3,6 +3,7 @@ package com.eps.complaintservice.controller;
 import com.eps.complaintservice.dto.AssignTechnicianRequestDTO;
 import com.eps.complaintservice.dto.ComplaintRequestDTO;
 import com.eps.complaintservice.dto.ComplaintResponseDTO;
+import com.eps.complaintservice.dto.EscalateComplaintRequestDTO;
 import com.eps.complaintservice.dto.ResolveComplaintRequestDTO;
 import com.eps.complaintservice.model.ComplaintCategory;
 import com.eps.complaintservice.model.ComplaintStatus;
@@ -75,10 +76,19 @@ public class ComplaintController {
     @PatchMapping("/{id}/assign-technician")
     @Operation(summary = "Assign a technician to a complaint")
     public ResponseEntity<ComplaintResponseDTO> assignTechnician(@PathVariable Long id,
-        @Valid @RequestBody AssignTechnicianRequestDTO request,
+        @Valid @RequestBody(required = false) AssignTechnicianRequestDTO request,
         @RequestHeader(value = "X-Auth-User-Id", required = false) String assignedByUserId) {
-        return ResponseEntity.ok(complaintService.assignTechnician(id, request.getTechnicianId(),
+        Long requestedTechnicianId = request == null ? null : request.getTechnicianId();
+        return ResponseEntity.ok(complaintService.assignTechnician(id, requestedTechnicianId,
             parseUserId(assignedByUserId)));
+    }
+
+    @PostMapping("/{id}/escalate")
+    @Operation(summary = "Escalate a complaint to the next BPO manager level")
+    public ResponseEntity<ComplaintResponseDTO> escalateComplaint(@PathVariable Long id,
+        @Valid @RequestBody(required = false) EscalateComplaintRequestDTO request) {
+        String reason = request == null ? null : request.getReason();
+        return ResponseEntity.ok(complaintService.escalateComplaint(id, reason));
     }
 
     @PatchMapping("/{id}/resolve")

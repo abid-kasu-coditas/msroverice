@@ -20,3 +20,11 @@ CREATE TABLE IF NOT EXISTS platform_users (
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS poc_tenant_assignments (
+  id BIGSERIAL PRIMARY KEY,
+  poc_user_id BIGINT NOT NULL,
+  tenant_id BIGINT NOT NULL,
+  assigned_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  UNIQUE (poc_user_id, tenant_id)
+);

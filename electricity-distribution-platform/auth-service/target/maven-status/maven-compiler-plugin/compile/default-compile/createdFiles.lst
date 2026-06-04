@@ -3,7 +3,6 @@ com\eps\authservice\dto\UserRequestDTO.class
 com\eps\authservice\controller\AuthController.class
 com\eps\authservice\dto\UserResponseDTO.class
 com\eps\authservice\config\JwtAuthenticationFilter.class
-com\eps\authservice\model\UserRole.class
 com\eps\authservice\repository\UserRepository.class
 com\eps\authservice\service\UserService.class
 com\eps\authservice\dto\LoginResponseDTO.class

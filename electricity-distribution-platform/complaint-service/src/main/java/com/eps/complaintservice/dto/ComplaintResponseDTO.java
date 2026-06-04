@@ -10,12 +10,12 @@ public class ComplaintResponseDTO {
     private Long customerId;
     private ComplaintCategory category;
     private String description;
-    private String state;
-    private String district;
-    private String city;
+    private Long cityId;
+    private Long areaId;
+    private Long bpoEmployeeId;
     private ComplaintStatus status;
     private LocalDateTime createdAt;
-    private Long assignedTechnicianId;
+    private Long technicianId;
     private Long assignedByUserId;
     private LocalDateTime assignedAt;
     private LocalDateTime resolvedAt;
@@ -24,21 +24,21 @@ public class ComplaintResponseDTO {
     public ComplaintResponseDTO() {}
 
     public ComplaintResponseDTO(Long id, Long customerId, ComplaintCategory category,
-                                String description, String state, String district, String city,
+                                String description, Long cityId, Long areaId, Long bpoEmployeeId,
                                 ComplaintStatus status, LocalDateTime createdAt,
-                                Long assignedTechnicianId, Long assignedByUserId,
+                                Long technicianId, Long assignedByUserId,
                                 LocalDateTime assignedAt, LocalDateTime resolvedAt,
                                 String resolution) {
         this.id = id;
         this.customerId = customerId;
         this.category = category;
         this.description = description;
-        this.state = state;
-        this.district = district;
-        this.city = city;
+        this.cityId = cityId;
+        this.areaId = areaId;
+        this.bpoEmployeeId = bpoEmployeeId;
         this.status = status;
         this.createdAt = createdAt;
-        this.assignedTechnicianId = assignedTechnicianId;
+        this.technicianId = technicianId;
         this.assignedByUserId = assignedByUserId;
         this.assignedAt = assignedAt;
         this.resolvedAt = resolvedAt;
@@ -57,14 +57,14 @@ public class ComplaintResponseDTO {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getState() { return state; }
-    public void setState(String state) { this.state = state; }
+    public Long getCityId() { return cityId; }
+    public void setCityId(Long cityId) { this.cityId = cityId; }
 
-    public String getDistrict() { return district; }
-    public void setDistrict(String district) { this.district = district; }
+    public Long getAreaId() { return areaId; }
+    public void setAreaId(Long areaId) { this.areaId = areaId; }
 
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public Long getBpoEmployeeId() { return bpoEmployeeId; }
+    public void setBpoEmployeeId(Long bpoEmployeeId) { this.bpoEmployeeId = bpoEmployeeId; }
 
     public ComplaintStatus getStatus() { return status; }
     public void setStatus(ComplaintStatus status) { this.status = status; }
@@ -72,8 +72,8 @@ public class ComplaintResponseDTO {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public Long getAssignedTechnicianId() { return assignedTechnicianId; }
-    public void setAssignedTechnicianId(Long assignedTechnicianId) { this.assignedTechnicianId = assignedTechnicianId; }
+    public Long getTechnicianId() { return technicianId; }
+    public void setTechnicianId(Long technicianId) { this.technicianId = technicianId; }
 
     public Long getAssignedByUserId() { return assignedByUserId; }
     public void setAssignedByUserId(Long assignedByUserId) { this.assignedByUserId = assignedByUserId; }

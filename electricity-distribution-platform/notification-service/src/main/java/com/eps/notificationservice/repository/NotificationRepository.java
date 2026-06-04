@@ -8,12 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface NotificationRepository extends JpaRepository<Notification, UUID> {
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    Page<Notification> findByCustomerId(UUID customerId, Pageable pageable);
+    Page<Notification> findByCustomerId(Long customerId, Pageable pageable);
 
     Page<Notification> findByEventType(Notification.EventType eventType, Pageable pageable);
 

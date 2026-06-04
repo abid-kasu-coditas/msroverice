@@ -19,9 +19,11 @@ C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\service\MeterService.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\java\com\eps\meterservice\grpc\GetMeterReadingRequest.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\exception\MeterAccountNotFoundException.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\model\MeterType.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\exception\GlobalExceptionHandler.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\dto\MeterReadingResponseDTO.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\grpc-java\com\eps\meterservice\grpc\MeterServiceGrpc.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\repository\MeterTypeRepository.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\src\main\java\com\eps\meterservice\repository\MeterAccountRepository.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\java\com\eps\meterservice\grpc\GetMeterReadingResponse.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\meter-service\target\generated-sources\protobuf\java\com\eps\meterservice\grpc\CreateMeterAccountResponse.java

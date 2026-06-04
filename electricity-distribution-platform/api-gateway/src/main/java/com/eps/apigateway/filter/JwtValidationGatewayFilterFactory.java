@@ -21,15 +21,12 @@ public class JwtValidationGatewayFilterFactory
     extends AbstractGatewayFilterFactory<JwtValidationGatewayFilterFactory.Config> {
 
   private final SecretKey signingKey;
-  private final TenantSuspensionChecker tenantSuspensionChecker;
 
   public JwtValidationGatewayFilterFactory(
       @Value("${jwt.secret:mySecretKeyForElectricityDistributionPlatformThatIsLongEnoughForHS256Algorithm}")
-      String jwtSecret,
-      TenantSuspensionChecker tenantSuspensionChecker) {
+      String jwtSecret) {
     super(Config.class);
     this.signingKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-    this.tenantSuspensionChecker = tenantSuspensionChecker;
   }
 
   @Override
@@ -74,15 +71,9 @@ public class JwtValidationGatewayFilterFactory
           requestBuilder.header("X-Tenant-ID", tenantId);
         }
 
-        return tenantSuspensionChecker.isSuspended(tenantId).flatMap(isSuspended -> {
-          if (Boolean.TRUE.equals(isSuspended)) {
-            exchange.getResponse().setStatusCode(HttpStatus.LOCKED);
-            return exchange.getResponse().setComplete();
-          }
-          return chain.filter(exchange.mutate()
-              .request(requestBuilder.build())
-              .build());
-        });
+        return chain.filter(exchange.mutate()
+            .request(requestBuilder.build())
+            .build());
       } catch (JwtException | IllegalArgumentException e) {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         return exchange.getResponse().setComplete();

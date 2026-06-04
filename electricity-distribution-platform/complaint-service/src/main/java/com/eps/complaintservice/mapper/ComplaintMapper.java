@@ -11,7 +11,7 @@ public class ComplaintMapper {
             return null;
         }
         return new Complaint(dto.getCustomerId(), dto.getCategory(), dto.getDescription(), dto.getStatus(),
-            dto.getState(), dto.getDistrict(), dto.getCity());
+            dto.getCityId(), dto.getAreaId());
     }
 
     public static ComplaintResponseDTO toDTO(Complaint model) {
@@ -23,12 +23,12 @@ public class ComplaintMapper {
             model.getCustomerId(),
             model.getCategory(),
             model.getDescription(),
-            model.getState(),
-            model.getDistrict(),
-            model.getCity(),
+            model.getCityId(),
+            model.getAreaId(),
+            model.getBpoEmployeeId(),
             model.getStatus(),
             model.getCreatedAt(),
-            model.getAssignedTechnicianId(),
+            model.getTechnicianId(),
             model.getAssignedByUserId(),
             model.getAssignedAt(),
             model.getResolvedAt(),

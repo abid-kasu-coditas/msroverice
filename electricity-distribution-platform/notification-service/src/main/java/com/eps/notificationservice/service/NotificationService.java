@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -33,7 +32,7 @@ public class NotificationService {
     /**
      * Get notification by ID
      */
-    public Notification getNotificationById(UUID id) {
+    public Notification getNotificationById(Long id) {
         return notificationRepository.findById(id).orElse(null);
     }
 
@@ -47,7 +46,7 @@ public class NotificationService {
     /**
      * Get notifications by customer ID
      */
-    public Page<Notification> getNotificationsByCustomerId(UUID customerId, Pageable pageable) {
+    public Page<Notification> getNotificationsByCustomerId(Long customerId, Pageable pageable) {
         return notificationRepository.findByCustomerId(customerId, pageable);
     }
 
@@ -84,7 +83,7 @@ public class NotificationService {
     /**
      * Send email notification
      */
-    public Notification sendEmailNotification(UUID notificationId) {
+    public Notification sendEmailNotification(Long notificationId) {
         Notification notification = notificationRepository.findById(notificationId).orElse(null);
         if (notification != null) {
             // Simulate sending email
@@ -102,7 +101,7 @@ public class NotificationService {
     /**
      * Send SMS notification
      */
-    public Notification sendSmsNotification(UUID notificationId) {
+    public Notification sendSmsNotification(Long notificationId) {
         Notification notification = notificationRepository.findById(notificationId).orElse(null);
         if (notification != null) {
             // Simulate sending SMS
@@ -147,7 +146,7 @@ public class NotificationService {
     /**
      * Delete notification
      */
-    public void deleteNotification(UUID id) {
+    public void deleteNotification(Long id) {
         notificationRepository.deleteById(id);
     }
 

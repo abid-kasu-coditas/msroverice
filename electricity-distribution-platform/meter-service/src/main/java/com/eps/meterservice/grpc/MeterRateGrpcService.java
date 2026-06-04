@@ -6,11 +6,20 @@ import com.eps.grpc.meter.ConnectionResponse;
 import com.eps.grpc.meter.MeterGrpcServiceGrpc;
 import com.eps.grpc.meter.MeterTypeResponse;
 import com.eps.shared.tenant.TenantContext;
+import com.eps.meterservice.model.MeterType;
+import com.eps.meterservice.repository.MeterTypeRepository;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class MeterRateGrpcService extends MeterGrpcServiceGrpc.MeterGrpcServiceImplBase {
+
+  private final MeterTypeRepository meterTypeRepository;
+
+  public MeterRateGrpcService(MeterTypeRepository meterTypeRepository) {
+    this.meterTypeRepository = meterTypeRepository;
+  }
 
   @Override
   public void getConnectionDetails(ConnectionRequest request,
@@ -32,13 +41,21 @@ public class MeterRateGrpcService extends MeterGrpcServiceGrpc.MeterGrpcServiceI
   public void getMeterTypeRate(IdRequest request,
       StreamObserver<MeterTypeResponse> responseObserver) {
     withTenant(request.getTenantId(), () -> {
-      responseObserver.onNext(MeterTypeResponse.newBuilder()
-          .setId(request.getId())
-          .setCode("DOMESTIC")
-          .setName("Domestic")
-          .setRatePerUnit(6.50)
-          .build());
-      responseObserver.onCompleted();
+      try {
+        MeterType meterType = meterTypeRepository.findByIdAndActiveTrue(request.getId())
+            .orElseThrow(() -> new IllegalArgumentException("Meter type not found: " + request.getId()));
+        responseObserver.onNext(MeterTypeResponse.newBuilder()
+            .setId(meterType.getId())
+            .setCode(meterType.getCode())
+            .setName(meterType.getName())
+            .setRatePerUnit(meterType.getRatePerUnit())
+            .build());
+        responseObserver.onCompleted();
+      } catch (RuntimeException ex) {
+        responseObserver.onError(Status.NOT_FOUND
+            .withDescription(ex.getMessage())
+            .asRuntimeException());
+      }
     });
   }
 

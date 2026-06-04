@@ -190,91 +190,73 @@ service MeterService {
 
 ### Prerequisites
 
-- Java 21 JDK
-- Maven 3.8+
-- Docker & Docker Compose
-- PostgreSQL 16 (optional if using Docker)
-- Kafka 7.6+ (optional if using Docker)
+- **Java**: JDK 21 or later
+- **Maven**: 3.8+
+- **Docker & Docker Compose**: Latest version
 
-### Quick Start with Docker
+### Quick Start (Local Development)
 
-1. **Build all services**:
+**This project runs Kafka and PostgreSQL in Docker, with all services running locally on your machine.**
 
-```bash
-mvn clean package -DskipTests -f pom.xml
-```
-
-2. **Build Docker images** (from root directory):
+#### Step 1: Start Infrastructure (Docker)
 
 ```bash
-docker-compose build
-```
-
-3. **Start the platform**:
-
-```bash
+# From project root
 docker-compose up -d
-```
 
-4. **Verify services are running**:
-
-```bash
+# Verify containers are running
 docker-compose ps
 ```
 
-5. **Access the services**:
-
-- API Gateway: http://localhost:8080
-- Swagger UI Auth Service: http://localhost:8081/swagger-ui.html
-- Swagger UI Customer Service: http://localhost:8082/swagger-ui.html
-
-### Local Development Setup
-
-1. **Install dependencies**:
-
-```bash
-mvn clean install
+Expected output:
+```
+NAME            STATUS
+eps-postgres    Up (healthy)
+eps-kafka       Up (healthy)
 ```
 
-2. **Start PostgreSQL**:
+#### Step 2: Build All Services
 
 ```bash
-docker run -d \
-  --name postgres-eps \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -p 5432:5432 \
-  postgres:16-alpine
+mvn clean install -DskipTests
 ```
 
-3. **Start Kafka** (or use docker-compose for Kafka only):
+#### Step 3: Start Services Locally
+
+**Option A: In Your IDE**
+
+1. Right-click each service's `pom.xml` → Run Maven Goal → `spring-boot:run`
+2. Each service starts in a separate run configuration
+
+**Option B: Terminal (One service per terminal)**
 
 ```bash
-docker run -d \
-  --name kafka-eps \
-  -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper \
-  -e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 \
-  -p 9092:9092 \
-  confluentinc/cp-kafka:7.6.0
-```
-
-4. **Start individual services**:
-
-```bash
-# Terminal 1
+# Terminal 1 - Auth Service (Port 8080)
 cd auth-service
 mvn spring-boot:run
 
-# Terminal 2
+# Terminal 2 - API Gateway (Port 4004)
 cd api-gateway
 mvn spring-boot:run
 
-# Terminal 3
+# Terminal 3 - Customer Service (Port 8081)
 cd customer-service
 mvn spring-boot:run
 
-# etc...
+# ... continue for other services
 ```
+
+#### Step 4: Access Services
+
+| Service | URL | Swagger UI |
+|---------|-----|------------|
+| API Gateway | http://localhost:4004 | N/A |
+| Auth Service | http://localhost:8080 | http://localhost:8080/swagger-ui.html |
+| Customer Service | http://localhost:8081 | http://localhost:8081/swagger-ui.html |
+| Meter Service | http://localhost:8082 | http://localhost:8082/swagger-ui.html |
+| (See LOCAL_SETUP_GUIDE.md for full service list) | | |
+
+**See `LOCAL_SETUP_GUIDE.md` for detailed setup instructions and troubl`
 
 ## Testing
 

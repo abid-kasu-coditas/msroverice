@@ -15,6 +15,7 @@ public class NotificationMapper {
         NotificationDTO dto = new NotificationDTO();
         dto.setId(notification.getId());
         dto.setCustomerId(notification.getCustomerId());
+        dto.setTenantCode(notification.getTenantCode());
         dto.setEventType(notification.getEventType() != null ? notification.getEventType().name() : null);
         dto.setMessage(notification.getMessage());
         dto.setEmailBody(notification.getEmailBody());
@@ -36,6 +37,7 @@ public class NotificationMapper {
         Notification notification = new Notification();
         notification.setId(dto.getId());
         notification.setCustomerId(dto.getCustomerId());
+        notification.setTenantCode(dto.getTenantCode());
         if (dto.getEventType() != null) {
             notification.setEventType(Notification.EventType.valueOf(dto.getEventType()));
         }

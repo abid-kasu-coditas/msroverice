@@ -10,7 +10,10 @@ C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\controller\ComplaintController.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\mapper\ComplaintMapper.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\dto\AssignTechnicianRequestDTO.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\model\ComplaintEscalation.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\service\ComplaintService.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\dto\ResolveComplaintRequestDTO.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\dto\ComplaintResponseDTO.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\dto\EscalateComplaintRequestDTO.java
 C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\model\ComplaintStatus.java
+C:\Users\Coditas-Admin\Desktop\electricity_cc\electricity-distribution-platform\complaint-service\src\main\java\com\eps\complaintservice\repository\ComplaintEscalationRepository.java

@@ -1,10 +1,7 @@
 package com.eps.complaintservice.dto;
 
-import jakarta.validation.constraints.NotNull;
-
 public class AssignTechnicianRequestDTO {
 
-    @NotNull(message = "Technician ID is required")
     private Long technicianId;
 
     public AssignTechnicianRequestDTO() {}

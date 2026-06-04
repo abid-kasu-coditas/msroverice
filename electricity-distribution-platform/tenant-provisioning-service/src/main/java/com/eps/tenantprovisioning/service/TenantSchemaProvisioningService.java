@@ -35,7 +35,7 @@ public class TenantSchemaProvisioningService {
         .schemas(schemaName)
         .defaultSchema(schemaName)
         .locations("classpath:db/tenant-migration")
-        .baselineOnMigrate(true)
+        .baselineOnMigrate(false)
         .load()
         .migrate();
 

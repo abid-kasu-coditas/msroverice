@@ -2,18 +2,17 @@ package com.eps.notificationservice.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "notifications")
 public class Notification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "customer_id", nullable = false)
-    private UUID customerId;
+    private Long customerId;
 
     @Column(name = "event_type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -45,14 +44,14 @@ public class Notification {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @Column(name = "tenant_id")
-    private UUID tenantId;
+    @Column(name = "tenant_code")
+    private String tenantCode;
 
     // Constructors
     public Notification() {
     }
 
-    public Notification(UUID customerId, EventType eventType, String message) {
+    public Notification(Long customerId, EventType eventType, String message) {
         this.customerId = customerId;
         this.eventType = eventType;
         this.message = message;
@@ -61,19 +60,19 @@ public class Notification {
     }
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -149,12 +148,12 @@ public class Notification {
         this.updatedAt = updatedAt;
     }
 
-    public UUID getTenantId() {
-        return tenantId;
+    public String getTenantCode() {
+        return tenantCode;
     }
 
-    public void setTenantId(UUID tenantId) {
-        this.tenantId = tenantId;
+    public void setTenantCode(String tenantCode) {
+        this.tenantCode = tenantCode;
     }
 
     // Enums

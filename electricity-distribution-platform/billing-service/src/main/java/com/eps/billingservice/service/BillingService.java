@@ -11,10 +11,11 @@ import com.eps.billingservice.model.BillStatus;
 import com.eps.billingservice.repository.BillRepository;
 import com.eps.billingservice.client.MeterServiceClient;
 import com.eps.billingservice.client.PaymentBlockServiceClient;
+import com.eps.grpc.meter.ConnectionResponse;
+import com.eps.grpc.meter.MeterTypeResponse;
 import java.time.LocalDate;
 import java.util.List;
 import com.eps.billingservice.exception.CustomerBlockedException;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -70,11 +71,24 @@ public class BillingService {
             throw new BillNumberAlreadyExistsException("A bill with number " + billNumber + " already exists");
         }
 
-        enrichUnitsFromMeterReading(request);
         Bill bill = buildBill(request, billNumber);
         Bill savedBill = billRepository.save(bill);
         billEventPublisher.publishBillGenerated(savedBill);
         return BillMapper.toDTO(savedBill);
+    }
+
+    public BillResponseDTO createBillFromMeterReading(Long connectionId, Double readingValue) {
+        ConnectionResponse connection = meterServiceClient.getConnectionDetails(connectionId);
+
+        BillRequestDTO billRequest = new BillRequestDTO();
+        billRequest.setCustomerId(connection.getCustomerId());
+        billRequest.setMeterId(connection.getMeterId());
+        billRequest.setUnitsConsumed(readingValue);
+
+        MeterTypeResponse meterType = meterServiceClient.getMeterTypeRate(connection.getMeterTypeId());
+        billRequest.setRatePerUnit(meterType.getRatePerUnit());
+
+        return createBill(billRequest);
     }
 
     public BillResponseDTO getBillById(Long id) {
@@ -131,7 +145,7 @@ public class BillingService {
     private Bill buildBill(BillRequestDTO request, String billNumber) {
         LocalDate billDate = request.getBillDate() == null ? LocalDate.now() : request.getBillDate();
         LocalDate dueDate = request.getDueDate() == null ? billDate.plusDays(21) : request.getDueDate();
-        double ratePerUnit = request.getRatePerUnit() == null ? DEFAULT_RATE_PER_UNIT : request.getRatePerUnit();
+        double ratePerUnit = resolveRatePerUnit(request);
         double penalties = request.getPenalties() == null ? 0.0 : request.getPenalties();
         double discounts = request.getDiscounts() == null ? 0.0 : request.getDiscounts();
         double baseAmount = request.getUnitsConsumed() * ratePerUnit;
@@ -154,25 +168,15 @@ public class BillingService {
         );
     }
 
-    private void enrichUnitsFromMeterReading(BillRequestDTO request) {
+    private double resolveRatePerUnit(BillRequestDTO request) {
+        if (request.getRatePerUnit() != null) {
+            return request.getRatePerUnit();
+        }
         try {
-            JsonNode meterReading = meterServiceClient.getMeterReadings(request.getMeterId());
-            if (meterReading == null) {
-                return;
-            }
-            if (meterReading.hasNonNull("unitsConsumed")) {
-                request.setUnitsConsumed(meterReading.get("unitsConsumed").asDouble());
-                return;
-            }
-            if (meterReading.hasNonNull("currentReading") && meterReading.hasNonNull("previousReading")) {
-                int unitsConsumed = MeterServiceClient.calculateUnitsConsumed(
-                    meterReading.get("currentReading").asInt(),
-                    meterReading.get("previousReading").asInt()
-                );
-                request.setUnitsConsumed((double) unitsConsumed);
-            }
+            return meterServiceClient.getMeterTypeRate(request.getMeterId()).getRatePerUnit();
         } catch (RuntimeException ex) {
-            logger.warn("Meter reading enrichment skipped for meter {}: {}", request.getMeterId(), ex.getMessage());
+            logger.warn("Meter type rate lookup skipped for meter {}: {}", request.getMeterId(), ex.getMessage());
+            return DEFAULT_RATE_PER_UNIT;
         }
     }
 

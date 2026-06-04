@@ -32,7 +32,6 @@
     <module>analytics-service</module>
     <module>audit-service</module>
     <module>client-onboarding-service</module>
-    <module>employee-service</module>
   </modules>
 
   <properties>

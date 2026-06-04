@@ -38,8 +38,8 @@ public class AuthController {
   @PostMapping("/register")
   @PreAuthorize("hasRole('SUPER_ADMIN') or "
       + "(hasRole('MANAGEMENT') and "
-      + "#userRequestDTO.role != T(com.eps.authservice.model.UserRole).SUPER_ADMIN and "
-      + "#userRequestDTO.role != T(com.eps.authservice.model.UserRole).MANAGEMENT)")
+      + "#userRequestDTO.role != 'SUPER_ADMIN' and "
+      + "#userRequestDTO.role != 'MANAGEMENT')")
   @Operation(summary = "Register a new user")
   public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRequestDTO userRequestDTO) {
     UserResponseDTO userResponseDTO = userService.registerUser(userRequestDTO);
@@ -110,8 +110,8 @@ public class AuthController {
   @PutMapping("/users/{id}")
   @PreAuthorize("hasRole('SUPER_ADMIN') or "
       + "(hasRole('MANAGEMENT') and "
-      + "#userRequestDTO.role != T(com.eps.authservice.model.UserRole).SUPER_ADMIN and "
-      + "#userRequestDTO.role != T(com.eps.authservice.model.UserRole).MANAGEMENT)")
+      + "#userRequestDTO.role != 'SUPER_ADMIN' and "
+      + "#userRequestDTO.role != 'MANAGEMENT')")
   @Operation(summary = "Update user")
   public ResponseEntity<UserResponseDTO> updateUser(@PathVariable UUID id,
       @Valid @RequestBody UserRequestDTO userRequestDTO) {

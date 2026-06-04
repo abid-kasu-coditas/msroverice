@@ -24,6 +24,7 @@ com\eps\meterservice\grpc\GetMeterReadingRequest.class
 com\eps\meterservice\exception\GlobalExceptionHandler.class
 com\eps\meterservice\mapper\MeterMapper.class
 com\eps\meterservice\grpc\CreateMeterAccountRequest.class
+com\eps\meterservice\repository\MeterTypeRepository.class
 com\eps\meterservice\grpc\GetMeterReadingResponse.class
 com\eps\meterservice\grpc\CreateMeterAccountRequest$1.class
 com\eps\meterservice\grpc\CreateMeterAccountRequestOrBuilder.class
@@ -45,6 +46,7 @@ com\eps\meterservice\exception\InvalidMeterReadingException.class
 com\eps\meterservice\grpc\RecordMeterReadingResponse$Builder.class
 com\eps\meterservice\exception\MeterReadingNotFoundException.class
 com\eps\meterservice\grpc\GetMeterReadingResponse$Builder.class
+com\eps\meterservice\model\MeterType.class
 com\eps\meterservice\model\MeterAccount.class
 com\eps\meterservice\grpc\MeterServiceGrpc$MeterServiceFutureStub.class
 com\eps\meterservice\repository\MeterReadingRepository.class

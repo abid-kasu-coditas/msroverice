@@ -1,6 +1,5 @@
 package com.eps.authservice.dto;
 
-import com.eps.authservice.model.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -16,14 +15,14 @@ public class UserRequestDTO {
   @NotBlank(message = "Password is required")
   private String password;
 
-  private UserRole role;
+  private String role;
   private String userType;
   private String tenantId;
 
   public UserRequestDTO() {
   }
 
-  public UserRequestDTO(String username, String email, String password, UserRole role) {
+  public UserRequestDTO(String username, String email, String password, String role) {
     this.username = username;
     this.email = email;
     this.password = password;
@@ -55,11 +54,11 @@ public class UserRequestDTO {
     this.password = password;
   }
 
-  public UserRole getRole() {
+  public String getRole() {
     return role;
   }
 
-  public void setRole(UserRole role) {
+  public void setRole(String role) {
     this.role = role;
   }
 

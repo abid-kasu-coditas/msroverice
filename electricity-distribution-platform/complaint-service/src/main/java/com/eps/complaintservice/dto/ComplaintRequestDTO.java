@@ -16,9 +16,11 @@ public class ComplaintRequestDTO {
     @NotBlank(message = "Description is required")
     private String description;
 
-    private String state;
-    private String district;
-    private String city;
+    @NotNull(message = "City ID is required")
+    private Long cityId;
+
+    @NotNull(message = "Area ID is required")
+    private Long areaId;
 
     private ComplaintStatus status;
 
@@ -33,14 +35,11 @@ public class ComplaintRequestDTO {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getState() { return state; }
-    public void setState(String state) { this.state = state; }
+    public Long getCityId() { return cityId; }
+    public void setCityId(Long cityId) { this.cityId = cityId; }
 
-    public String getDistrict() { return district; }
-    public void setDistrict(String district) { this.district = district; }
-
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public Long getAreaId() { return areaId; }
+    public void setAreaId(Long areaId) { this.areaId = areaId; }
 
     public ComplaintStatus getStatus() { return status; }
     public void setStatus(ComplaintStatus status) { this.status = status; }

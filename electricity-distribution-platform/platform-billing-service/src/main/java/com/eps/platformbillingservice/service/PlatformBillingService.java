@@ -2,7 +2,6 @@ package com.eps.platformbillingservice.service;
 
 import com.eps.platformbillingservice.dto.CreatePlatformInvoiceRequest;
 import com.eps.platformbillingservice.event.PlatformBillingEventPublisher;
-import com.eps.platformbillingservice.integration.RedisSuspensionCache;
 import com.eps.platformbillingservice.model.PlatformInvoice;
 import com.eps.platformbillingservice.model.PlatformInvoiceStatus;
 import com.eps.platformbillingservice.repository.PlatformInvoiceRepository;
@@ -17,13 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlatformBillingService {
 
   private final PlatformInvoiceRepository platformInvoiceRepository;
-  private final RedisSuspensionCache redisSuspensionCache;
   private final PlatformBillingEventPublisher eventPublisher;
 
   public PlatformBillingService(PlatformInvoiceRepository platformInvoiceRepository,
-      RedisSuspensionCache redisSuspensionCache, PlatformBillingEventPublisher eventPublisher) {
+      PlatformBillingEventPublisher eventPublisher) {
     this.platformInvoiceRepository = platformInvoiceRepository;
-    this.redisSuspensionCache = redisSuspensionCache;
     this.eventPublisher = eventPublisher;
   }
 
@@ -46,7 +43,6 @@ public class PlatformBillingService {
     PlatformInvoice invoice = findById(id);
     invoice.setStatus(PlatformInvoiceStatus.PAID);
     invoice.setPaidAt(LocalDateTime.now());
-    redisSuspensionCache.reinstate(invoice.getTenantCode());
     return platformInvoiceRepository.save(invoice);
   }
 
@@ -62,7 +58,6 @@ public class PlatformBillingService {
     overdue.forEach(invoice -> {
       invoice.setStatus(PlatformInvoiceStatus.OVERDUE);
       platformInvoiceRepository.save(invoice);
-      redisSuspensionCache.suspend(invoice.getTenantCode());
       eventPublisher.tenantSuspended(invoice.getTenantCode(), "Platform invoice overdue");
     });
   }

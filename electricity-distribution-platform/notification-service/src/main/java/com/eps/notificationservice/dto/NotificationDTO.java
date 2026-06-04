@@ -1,12 +1,12 @@
 package com.eps.notificationservice.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class NotificationDTO {
     
-    private UUID id;
-    private UUID customerId;
+    private Long id;
+    private Long customerId;
+    private String tenantCode;
     private String eventType;
     private String message;
     private String emailBody;
@@ -21,7 +21,7 @@ public class NotificationDTO {
     public NotificationDTO() {
     }
 
-    public NotificationDTO(UUID id, UUID customerId, String eventType, String message) {
+    public NotificationDTO(Long id, Long customerId, String eventType, String message) {
         this.id = id;
         this.customerId = customerId;
         this.eventType = eventType;
@@ -29,20 +29,28 @@ public class NotificationDTO {
     }
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public String getTenantCode() {
+        return tenantCode;
+    }
+
+    public void setTenantCode(String tenantCode) {
+        this.tenantCode = tenantCode;
     }
 
     public String getEventType() {

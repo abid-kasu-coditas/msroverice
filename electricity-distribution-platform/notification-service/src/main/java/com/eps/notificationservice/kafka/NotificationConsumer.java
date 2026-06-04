@@ -4,10 +4,9 @@ import com.eps.notificationservice.model.Notification;
 import com.eps.notificationservice.service.NotificationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class NotificationConsumer {
@@ -23,121 +22,84 @@ public class NotificationConsumer {
     @KafkaListener(topics = "bill-generated", groupId = "notification-service-group")
     public void consumeBillGenerated(String message) {
         try {
-            JsonNode eventData = objectMapper.readTree(message);
-            UUID customerId = UUID.fromString(eventData.get("customerId").asText());
-            
-            Notification notification = new Notification();
-            notification.setCustomerId(customerId);
-            notification.setEventType(Notification.EventType.BILL_GENERATED);
-            notification.setMessage("New bill generated: " + eventData.get("billId").asText());
-            notification.setEmailBody("Your electricity bill is ready. Bill Amount: ₹" + eventData.get("totalAmount").asText());
-            notification.setSmsBody("Your electricity bill is ready");
-            notification.setEmailStatus(Notification.NotificationStatus.PENDING);
-            notification.setSmsStatus(Notification.NotificationStatus.PENDING);
-            
-            notificationService.createNotification(notification);
-            System.out.println("Bill Generated Notification stored for customer: " + customerId);
+            JsonNode root = objectMapper.readTree(message);
+            JsonNode data = data(root);
+            Long customerId = data.get("customerId").asLong();
+            String billId = data.get("billId").asText();
+            String totalAmount = data.get("totalAmount").asText();
+
+            store(customerId, tenantCode(root), Notification.EventType.BILL_GENERATED,
+                "New bill generated: " + billId,
+                "Your electricity bill is ready. Bill Amount: Rs. " + totalAmount,
+                "Your electricity bill is ready");
         } catch (Exception e) {
             System.err.println("Error processing bill-generated event: " + e.getMessage());
         }
     }
 
-    @KafkaListener(topics = "payment-success", groupId = "notification-service-group")
-    public void consumePaymentSuccess(String message) {
+    @KafkaListener(topics = "payment-received", groupId = "notification-service-group")
+    public void consumePaymentReceived(String message) {
         try {
-            JsonNode eventData = objectMapper.readTree(message);
-            UUID customerId = UUID.fromString(eventData.get("customerId").asText());
-            
-            Notification notification = new Notification();
-            notification.setCustomerId(customerId);
-            notification.setEventType(Notification.EventType.PAYMENT_SUCCESS);
-            notification.setMessage("Payment received successfully: " + eventData.get("transactionNumber").asText());
-            notification.setEmailBody("Your payment of ₹" + eventData.get("amount").asText() + " has been received successfully");
-            notification.setSmsBody("Payment confirmed. Thank you!");
-            notification.setEmailStatus(Notification.NotificationStatus.PENDING);
-            notification.setSmsStatus(Notification.NotificationStatus.PENDING);
-            
-            notificationService.createNotification(notification);
-            System.out.println("Payment Success Notification stored for customer: " + customerId);
+            JsonNode root = objectMapper.readTree(message);
+            JsonNode data = data(root);
+            Long customerId = data.get("customerId").asLong();
+            String transactionId = data.hasNonNull("transactionId") ? data.get("transactionId").asText() : "N/A";
+            String amount = data.get("amount").asText();
+
+            store(customerId, tenantCode(root), Notification.EventType.PAYMENT_SUCCESS,
+                "Payment received successfully: " + transactionId,
+                "Your payment of Rs. " + amount + " has been received successfully",
+                "Payment confirmed. Thank you!");
         } catch (Exception e) {
-            System.err.println("Error processing payment-success event: " + e.getMessage());
+            System.err.println("Error processing payment-received event: " + e.getMessage());
         }
     }
 
-    @KafkaListener(topics = "complaint-registered", groupId = "notification-service-group")
-    public void consumeComplaintRegistered(String message) {
+    @KafkaListener(topics = "customer-onboarded", groupId = "notification-service-group")
+    public void consumeCustomerOnboarded(String message) {
         try {
-            JsonNode eventData = objectMapper.readTree(message);
-            UUID customerId = UUID.fromString(eventData.get("customerId").asText());
-            
-            Notification notification = new Notification();
-            notification.setCustomerId(customerId);
-            notification.setEventType(Notification.EventType.COMPLAINT_REGISTERED);
-            notification.setMessage("Complaint registered: " + eventData.get("complaintId").asText());
-            notification.setEmailBody("Your complaint has been registered. Reference ID: " + eventData.get("complaintId").asText() + "\nDescription: " + eventData.get("description").asText());
-            notification.setSmsBody("Your complaint has been registered. Reference ID: " + eventData.get("complaintId").asText());
-            notification.setEmailStatus(Notification.NotificationStatus.PENDING);
-            notification.setSmsStatus(Notification.NotificationStatus.PENDING);
-            
-            notificationService.createNotification(notification);
-            System.out.println("Complaint Registered Notification stored for customer: " + customerId);
-        } catch (Exception e) {
-            System.err.println("Error processing complaint-registered event: " + e.getMessage());
-        }
-    }
+            JsonNode root = objectMapper.readTree(message);
+            Long customerId = root.get("customerId").asLong();
 
-    @KafkaListener(topics = "customer-registered", groupId = "notification-service-group")
-    public void consumeCustomerRegistered(String message) {
-        try {
-            JsonNode eventData = objectMapper.readTree(message);
-            UUID customerId = UUID.fromString(eventData.get("customerId").asText());
-            
-            Notification notification = new Notification();
-            notification.setCustomerId(customerId);
-            notification.setEventType(Notification.EventType.CUSTOMER_REGISTERED);
-            notification.setMessage("Welcome to our electricity service platform");
-            notification.setEmailBody("Welcome! You have successfully registered with our electricity service platform. Your Customer ID: " + customerId);
-            notification.setSmsBody("Welcome to our service! Your Customer ID: " + customerId);
-            notification.setEmailStatus(Notification.NotificationStatus.PENDING);
-            notification.setSmsStatus(Notification.NotificationStatus.PENDING);
-            
-            notificationService.createNotification(notification);
-            System.out.println("Customer Registered Notification stored for customer: " + customerId);
+            store(customerId, tenantCode(root), Notification.EventType.CUSTOMER_REGISTERED,
+                "Welcome to our electricity service platform",
+                "Welcome! You have successfully registered with our electricity service platform. Your Customer ID: "
+                    + customerId,
+                "Welcome to our service! Your Customer ID: " + customerId);
         } catch (Exception e) {
-            System.err.println("Error processing customer-registered event: " + e.getMessage());
-        }
-    }
-
-    @KafkaListener(topics = "connection-activated", groupId = "notification-service-group")
-    public void consumeConnectionActivated(String message) {
-        try {
-            JsonNode eventData = objectMapper.readTree(message);
-            UUID customerId = UUID.fromString(eventData.get("customerId").asText());
-            
-            Notification notification = new Notification();
-            notification.setCustomerId(customerId);
-            notification.setEventType(Notification.EventType.CONNECTION_ACTIVATED);
-            notification.setMessage("Electricity connection activated: " + eventData.get("connectionNumber").asText());
-            notification.setEmailBody("Your electricity connection has been activated. Connection Number: " + eventData.get("connectionNumber").asText());
-            notification.setSmsBody("Your connection is now active!");
-            notification.setEmailStatus(Notification.NotificationStatus.PENDING);
-            notification.setSmsStatus(Notification.NotificationStatus.PENDING);
-            
-            notificationService.createNotification(notification);
-            System.out.println("Connection Activated Notification stored for customer: " + customerId);
-        } catch (Exception e) {
-            System.err.println("Error processing connection-activated event: " + e.getMessage());
+            System.err.println("Error processing customer-onboarded event: " + e.getMessage());
         }
     }
 
     @KafkaListener(topics = {
-        "tenant-provisioned", "customer-onboarded", "payment-received",
-        "complaint-raised", "complaint-resolved", "complaint-escalated",
+        "tenant-provisioned", "complaint-raised", "complaint-resolved", "complaint-escalated",
         "tenant-suspended"
     }, groupId = "notification-service-log-group")
-    public void consumeOperationalNotifications(String message,
-        org.apache.kafka.clients.consumer.ConsumerRecord<String, String> record) {
+    public void consumeOperationalNotifications(String message, ConsumerRecord<String, String> record) {
         System.out.println("Notification stub for topic " + record.topic()
             + " tenant/key=" + record.key());
+    }
+
+    private void store(Long customerId, String tenantCode, Notification.EventType eventType,
+                       String message, String emailBody, String smsBody) {
+        Notification notification = new Notification();
+        notification.setCustomerId(customerId);
+        notification.setTenantCode(tenantCode);
+        notification.setEventType(eventType);
+        notification.setMessage(message);
+        notification.setEmailBody(emailBody);
+        notification.setSmsBody(smsBody);
+        notification.setEmailStatus(Notification.NotificationStatus.PENDING);
+        notification.setSmsStatus(Notification.NotificationStatus.PENDING);
+        notificationService.createNotification(notification);
+        System.out.println(eventType + " notification stored for customer: " + customerId);
+    }
+
+    private JsonNode data(JsonNode root) {
+        return root.has("data") && root.get("data").isObject() ? root.get("data") : root;
+    }
+
+    private String tenantCode(JsonNode root) {
+        return root.hasNonNull("tenantCode") ? root.get("tenantCode").asText() : null;
     }
 }

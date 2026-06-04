@@ -21,12 +21,11 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password_hash", nullable = false)
     private String password;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private String role;
 
     @Column(name = "user_type", nullable = false)
     private String userType = "PLATFORM";
@@ -48,11 +47,11 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String username, String email, String password, UserRole role) {
+    public User(String username, String email, String password, String role) {
         this(username, email, password, role, "PLATFORM", null);
     }
 
-    public User(String username, String email, String password, UserRole role,
+    public User(String username, String email, String password, String role,
                 String userType, String tenantId) {
         this.username = username;
         this.email = email;
@@ -68,7 +67,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override
@@ -126,11 +125,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

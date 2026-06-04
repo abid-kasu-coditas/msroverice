@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS notifications (
-  id UUID PRIMARY KEY,
-  customer_id UUID NOT NULL,
+  id BIGSERIAL PRIMARY KEY,
+  customer_id BIGINT NOT NULL,
   event_type VARCHAR(80) NOT NULL,
   message TEXT,
   email_body TEXT,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS notifications (
   sent_at TIMESTAMP,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP,
-  tenant_id UUID
+  tenant_code VARCHAR(100)
 );
 
 CREATE INDEX IF NOT EXISTS idx_notifications_customer_id ON notifications (customer_id);

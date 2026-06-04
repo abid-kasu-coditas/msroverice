@@ -1,6 +1,5 @@
 package com.eps.billingservice.grpc;
 
-import com.eps.billingservice.dto.BillRequestDTO;
 import com.eps.billingservice.dto.BillResponseDTO;
 import com.eps.billingservice.service.BillingService;
 import com.eps.grpc.billing.BillResponse;
@@ -25,11 +24,8 @@ public class BillingGrpcServiceImpl extends BillingGrpcServiceGrpc.BillingGrpcSe
       TenantContext.setCurrentTenant(request.getTenantId());
     }
     try {
-      BillRequestDTO billRequest = new BillRequestDTO();
-      billRequest.setCustomerId(request.getConnectionId());
-      billRequest.setMeterId(request.getConnectionId());
-      billRequest.setUnitsConsumed(request.getReadingValue());
-      BillResponseDTO bill = billingService.createBill(billRequest);
+      BillResponseDTO bill = billingService.createBillFromMeterReading(
+          request.getConnectionId(), request.getReadingValue());
       responseObserver.onNext(BillResponse.newBuilder()
           .setBillId(bill.getId())
           .setBillNumber(bill.getBillNumber())

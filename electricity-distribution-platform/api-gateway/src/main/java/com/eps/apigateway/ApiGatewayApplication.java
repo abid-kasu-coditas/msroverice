@@ -15,7 +15,6 @@ public class ApiGatewayApplication {
     private static final String CUSTOMER_SERVICE = "http://customer-service:8081";
     private static final String METER_SERVICE = "http://meter-service:8082";
     private static final String CONNECTION_SERVICE = "http://connection-service:8095";
-    private static final String ANALYTICS_SERVICE = "http://analytics-service:8083";
     private static final String PLATFORM_SERVICE = "http://platform-service:8085";
     private static final String TENANT_PROVISIONING_SERVICE = "http://tenant-provisioning-service:8086";
     private static final String GEOGRAPHY_SERVICE = "http://geography-service:8087";
@@ -104,6 +103,11 @@ public class ApiGatewayApplication {
                 .method(HttpMethod.GET)
                 .filters(f -> f.filter(jwtValidation.apply(roles(
                     SUPER_ADMIN, MANAGEMENT, SALES_POC))))
+                .uri(PLATFORM_SERVICE))
+            .route("platform-users", r -> r
+                .path("/api/platform/users", "/api/platform/users/**",
+                    "/api/platform/poc-assignments", "/api/platform/poc-assignments/**")
+                .filters(f -> f.filter(jwtValidation.apply(roles(SUPER_ADMIN, MANAGEMENT))))
                 .uri(PLATFORM_SERVICE))
             .route("tenant-provisioning-service", r -> r
                 .path("/api/provisioning", "/api/provisioning/**")
@@ -194,15 +198,7 @@ public class ApiGatewayApplication {
                 .path("/api/notifications", "/api/notifications/**")
                 .filters(f -> f.filter(jwtValidation.apply(roles(SUPER_ADMIN, MANAGEMENT, CRM))))
                 .uri(NOTIFICATION_SERVICE))
-            .route("analytics-service", r -> r
-                .path("/api/analytics", "/api/analytics/**")
-                .filters(f -> f.filter(jwtValidation.apply(roles(
-                    SUPER_ADMIN, MANAGEMENT, STATE_HEAD, DISTRICT_HEAD, CITY_HEAD))))
-                .uri(ANALYTICS_SERVICE))
-            .route("audit-service", r -> r
-                .path("/api/audit", "/api/audit/**")
-                .filters(f -> f.filter(jwtValidation.apply(roles(SUPER_ADMIN, MANAGEMENT))))
-                .uri(ANALYTICS_SERVICE))
+
             .build();
     }
 

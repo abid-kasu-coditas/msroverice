@@ -1,6 +1,5 @@
 package com.eps.authservice.dto;
 
-import com.eps.authservice.model.UserRole;
 import java.util.UUID;
 
 public class UserResponseDTO {
@@ -8,7 +7,7 @@ public class UserResponseDTO {
   private UUID id;
   private String username;
   private String email;
-  private UserRole role;
+  private String role;
   private String userType;
   private String tenantId;
   private Boolean active;
@@ -16,11 +15,11 @@ public class UserResponseDTO {
   public UserResponseDTO() {
   }
 
-  public UserResponseDTO(UUID id, String username, String email, UserRole role, Boolean active) {
+  public UserResponseDTO(UUID id, String username, String email, String role, Boolean active) {
     this(id, username, email, role, "PLATFORM", null, active);
   }
 
-  public UserResponseDTO(UUID id, String username, String email, UserRole role,
+  public UserResponseDTO(UUID id, String username, String email, String role,
       String userType, String tenantId, Boolean active) {
     this.id = id;
     this.username = username;
@@ -55,11 +54,11 @@ public class UserResponseDTO {
     this.email = email;
   }
 
-  public UserRole getRole() {
+  public String getRole() {
     return role;
   }
 
-  public void setRole(UserRole role) {
+  public void setRole(String role) {
     this.role = role;
   }
 

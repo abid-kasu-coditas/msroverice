@@ -28,11 +28,13 @@ public class Complaint {
     @Column(length = 1000, nullable = false)
     private String description;
 
-    private String state;
+    @Column(nullable = false)
+    private Long cityId;
 
-    private String district;
+    @Column(nullable = false)
+    private Long areaId;
 
-    private String city;
+    private Long bpoEmployeeId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -41,7 +43,8 @@ public class Complaint {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    private Long assignedTechnicianId;
+    @Column(name = "technician_id")
+    private Long technicianId;
 
     private Long assignedByUserId;
 
@@ -55,14 +58,13 @@ public class Complaint {
     public Complaint() {}
 
     public Complaint(Long customerId, ComplaintCategory category, String description, ComplaintStatus status,
-                     String state, String district, String city) {
+                     Long cityId, Long areaId) {
         this.customerId = customerId;
         this.category = category;
         this.description = description;
         this.status = status == null ? ComplaintStatus.OPEN : status;
-        this.state = state;
-        this.district = district;
-        this.city = city;
+        this.cityId = cityId;
+        this.areaId = areaId;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -78,14 +80,14 @@ public class Complaint {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getState() { return state; }
-    public void setState(String state) { this.state = state; }
+    public Long getCityId() { return cityId; }
+    public void setCityId(Long cityId) { this.cityId = cityId; }
 
-    public String getDistrict() { return district; }
-    public void setDistrict(String district) { this.district = district; }
+    public Long getAreaId() { return areaId; }
+    public void setAreaId(Long areaId) { this.areaId = areaId; }
 
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public Long getBpoEmployeeId() { return bpoEmployeeId; }
+    public void setBpoEmployeeId(Long bpoEmployeeId) { this.bpoEmployeeId = bpoEmployeeId; }
 
     public ComplaintStatus getStatus() { return status; }
     public void setStatus(ComplaintStatus status) { this.status = status; }
@@ -93,8 +95,8 @@ public class Complaint {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public Long getAssignedTechnicianId() { return assignedTechnicianId; }
-    public void setAssignedTechnicianId(Long assignedTechnicianId) { this.assignedTechnicianId = assignedTechnicianId; }
+    public Long getTechnicianId() { return technicianId; }
+    public void setTechnicianId(Long technicianId) { this.technicianId = technicianId; }
 
     public Long getAssignedByUserId() { return assignedByUserId; }
     public void setAssignedByUserId(Long assignedByUserId) { this.assignedByUserId = assignedByUserId; }

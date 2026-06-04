@@ -1,5 +1,5 @@
 -- Password is 'password' encoded with BCrypt.
-INSERT INTO users (id, username, email, password, role, user_type, tenant_id, active,
+INSERT INTO users (id, username, email, password_hash, role, user_type, tenant_id, active,
                    account_non_expired, account_non_locked, credentials_non_expired)
 VALUES
   ('550e8400-e29b-41d4-a716-446655440001', 'superadmin', 'superadmin@eps.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/TVi', 'SUPER_ADMIN', 'PLATFORM', null, true, true, true, true),

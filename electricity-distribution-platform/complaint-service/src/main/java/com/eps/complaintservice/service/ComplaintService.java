@@ -8,31 +8,46 @@ import com.eps.complaintservice.exception.ComplaintNotFoundException;
 import com.eps.complaintservice.mapper.ComplaintMapper;
 import com.eps.complaintservice.model.Complaint;
 import com.eps.complaintservice.model.ComplaintCategory;
+import com.eps.complaintservice.model.ComplaintEscalation;
 import com.eps.complaintservice.model.ComplaintStatus;
+import com.eps.complaintservice.repository.ComplaintEscalationRepository;
 import com.eps.complaintservice.repository.ComplaintRepository;
+import com.eps.grpc.common.IdRequest;
+import com.eps.grpc.tenantuser.BPOEmployeeResponse;
+import com.eps.grpc.tenantuser.ManagerRequest;
+import com.eps.grpc.tenantuser.ManagerResponse;
+import com.eps.grpc.tenantuser.TechnicianResponse;
+import com.eps.grpc.tenantuser.TenantUserServiceGrpc;
+import com.eps.shared.tenant.TenantContext;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestClientResponseException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ComplaintService {
 
     private final ComplaintRepository complaintRepository;
+    private final ComplaintEscalationRepository complaintEscalationRepository;
     private final ComplaintEventPublisher complaintEventPublisher;
-    private final RestClient employeeServiceClient;
+    private final String tenantUserServiceAddress;
+    private final int tenantUserServiceGrpcPort;
 
     public ComplaintService(ComplaintRepository complaintRepository,
+                            ComplaintEscalationRepository complaintEscalationRepository,
                             ComplaintEventPublisher complaintEventPublisher,
-                            @Value("${employee.service.url:http://localhost:8091}") String employeeServiceUrl) {
+                            @Value("${tenant-user-service.address:localhost}") String tenantUserServiceAddress,
+                            @Value("${tenant-user-service.grpc-port:9088}") int tenantUserServiceGrpcPort) {
         this.complaintRepository = complaintRepository;
+        this.complaintEscalationRepository = complaintEscalationRepository;
         this.complaintEventPublisher = complaintEventPublisher;
-        this.employeeServiceClient = RestClient.builder()
-            .baseUrl(employeeServiceUrl)
-            .build();
+        this.tenantUserServiceAddress = tenantUserServiceAddress;
+        this.tenantUserServiceGrpcPort = tenantUserServiceGrpcPort;
     }
 
     public List<ComplaintResponseDTO> getComplaints() {
@@ -51,64 +66,95 @@ public class ComplaintService {
         return complaintRepository.findByCategory(category).stream().map(ComplaintMapper::toDTO).toList();
     }
 
+    @Transactional
     public ComplaintResponseDTO createComplaint(ComplaintRequestDTO request) {
-        Complaint complaint = complaintRepository.save(ComplaintMapper.toModel(request));
-        complaintEventPublisher.publishComplaintCreated(complaint);
-        return ComplaintMapper.toDTO(complaint);
+        Complaint complaint = ComplaintMapper.toModel(request);
+        BPOEmployeeResponse bpoEmployee = getBpoEmployeeByCity(complaint.getCityId());
+        complaint.setBpoEmployeeId(bpoEmployee.getId());
+        complaint.setStatus(ComplaintStatus.ASSIGNED);
+        Complaint saved = complaintRepository.save(complaint);
+        complaintEventPublisher.publishComplaintCreated(saved);
+        return ComplaintMapper.toDTO(saved);
     }
 
     public ComplaintResponseDTO getComplaintById(Long id) {
         return ComplaintMapper.toDTO(findComplaint(id));
     }
 
+    @Transactional
     public ComplaintResponseDTO updateComplaint(Long id, ComplaintRequestDTO request) {
         Complaint complaint = findComplaint(id);
         complaint.setCustomerId(request.getCustomerId());
         complaint.setCategory(request.getCategory());
         complaint.setDescription(request.getDescription());
-        complaint.setState(request.getState());
-        complaint.setDistrict(request.getDistrict());
-        complaint.setCity(request.getCity());
+        complaint.setCityId(request.getCityId());
+        complaint.setAreaId(request.getAreaId());
         complaint.setStatus(request.getStatus() == null ? complaint.getStatus() : request.getStatus());
         return ComplaintMapper.toDTO(complaintRepository.save(complaint));
     }
 
-    public ComplaintResponseDTO assignTechnician(Long id, Long technicianId, Long assignedByUserId) {
+    @Transactional
+    public ComplaintResponseDTO assignTechnician(Long id, Long requestedTechnicianId, Long assignedByUserId) {
         Complaint complaint = findComplaint(id);
         if (complaint.getStatus() == ComplaintStatus.RESOLVED
             || complaint.getStatus() == ComplaintStatus.CLOSED) {
             throw new ComplaintAssignmentException("Resolved or closed complaints cannot be assigned");
         }
-        if (complaint.getAssignedTechnicianId() != null
+        if (complaint.getTechnicianId() != null
             && complaint.getStatus() == ComplaintStatus.IN_PROGRESS) {
             throw new ComplaintAssignmentException("Complaint already has an assigned technician");
         }
 
-        EmployeeSnapshot technician = getActiveTechnician(technicianId);
-        validateTechnicianTerritory(complaint, technician);
-        markTechnicianAssigned(technicianId);
+        TechnicianResponse technician = getTechnicianByArea(complaint.getAreaId());
+        if (requestedTechnicianId != null && !requestedTechnicianId.equals(technician.getId())) {
+            throw new ComplaintAssignmentException(
+                "Requested technician is not the active technician for complaint area " + complaint.getAreaId());
+        }
 
-        complaint.setAssignedTechnicianId(technicianId);
+        complaint.setTechnicianId(technician.getId());
         complaint.setAssignedByUserId(assignedByUserId);
         complaint.setAssignedAt(LocalDateTime.now());
         complaint.setStatus(ComplaintStatus.IN_PROGRESS);
         Complaint assignedComplaint = complaintRepository.save(complaint);
-        complaintEventPublisher.publishComplaintAssigned(assignedComplaint);
         return ComplaintMapper.toDTO(assignedComplaint);
     }
 
+    @Transactional
     public ComplaintResponseDTO resolveComplaint(Long id, String resolution) {
         Complaint complaint = findComplaint(id);
-        Long assignedTechnicianId = complaint.getAssignedTechnicianId();
         complaint.setStatus(ComplaintStatus.RESOLVED);
         complaint.setResolution(resolution);
         complaint.setResolvedAt(LocalDateTime.now());
         Complaint resolvedComplaint = complaintRepository.save(complaint);
-        if (assignedTechnicianId != null) {
-            releaseTechnician(assignedTechnicianId);
-        }
         complaintEventPublisher.publishComplaintResolved(resolvedComplaint);
         return ComplaintMapper.toDTO(resolvedComplaint);
+    }
+
+    @Transactional
+    public ComplaintResponseDTO escalateComplaint(Long id, String reason) {
+        Complaint complaint = findComplaint(id);
+        if (complaint.getStatus() == ComplaintStatus.RESOLVED
+            || complaint.getStatus() == ComplaintStatus.CLOSED) {
+            throw new ComplaintAssignmentException("Resolved or closed complaints cannot be escalated");
+        }
+        if (complaint.getStatus() == ComplaintStatus.ESCALATED_L2) {
+            throw new ComplaintAssignmentException("Complaint is already escalated to L2");
+        }
+
+        String level = complaint.getStatus() == ComplaintStatus.ESCALATED_L1 ? "L2" : "L1";
+        ManagerResponse manager = getManagerByLevel(level, complaint.getCityId());
+
+        ComplaintEscalation escalation = new ComplaintEscalation();
+        escalation.setComplaintId(complaint.getId());
+        escalation.setLevel(level);
+        escalation.setManagerId(manager.getId());
+        escalation.setReason(reason);
+        ComplaintEscalation savedEscalation = complaintEscalationRepository.save(escalation);
+
+        complaint.setStatus("L2".equals(level) ? ComplaintStatus.ESCALATED_L2 : ComplaintStatus.ESCALATED_L1);
+        Complaint escalatedComplaint = complaintRepository.save(complaint);
+        complaintEventPublisher.publishComplaintEscalated(escalatedComplaint, savedEscalation);
+        return ComplaintMapper.toDTO(escalatedComplaint);
     }
 
     public void deleteComplaint(Long id) {
@@ -123,74 +169,46 @@ public class ComplaintService {
             .orElseThrow(() -> new ComplaintNotFoundException("Complaint not found with ID: " + id));
     }
 
-    private EmployeeSnapshot getActiveTechnician(Long technicianId) {
+    private BPOEmployeeResponse getBpoEmployeeByCity(Long cityId) {
+        return callTenantUserService(stub -> stub.getBPOEmployeeByCity(IdRequest.newBuilder()
+            .setId(cityId)
+            .setTenantId(tenantId())
+            .build()), "Unable to assign BPO employee for city " + cityId);
+    }
+
+    private TechnicianResponse getTechnicianByArea(Long areaId) {
+        return callTenantUserService(stub -> stub.getTechnicianByArea(IdRequest.newBuilder()
+            .setId(areaId)
+            .setTenantId(tenantId())
+            .build()), "Unable to assign technician for area " + areaId);
+    }
+
+    private ManagerResponse getManagerByLevel(String level, Long cityId) {
+        return callTenantUserService(stub -> stub.getManagerByLevel(ManagerRequest.newBuilder()
+            .setLevel(level)
+            .setCityId(cityId)
+            .setTenantId(tenantId())
+            .build()), "Unable to find BPO manager " + level + " for city " + cityId);
+    }
+
+    private <T> T callTenantUserService(
+        Function<TenantUserServiceGrpc.TenantUserServiceBlockingStub, T> call,
+        String failureMessage) {
+        ManagedChannel channel = ManagedChannelBuilder
+            .forAddress(tenantUserServiceAddress, tenantUserServiceGrpcPort)
+            .usePlaintext()
+            .build();
         try {
-            EmployeeSnapshot technician = employeeServiceClient.get()
-                .uri("/api/employees/{id}/role/TECHNICIAN/active", technicianId)
-                .retrieve()
-                .body(EmployeeSnapshot.class);
-            if (technician == null) {
-                throw new ComplaintAssignmentException("Employee-service returned no technician data");
-            }
-            return technician;
-        } catch (RestClientResponseException e) {
-            throw new ComplaintAssignmentException(
-                "Technician ID must reference an active TECHNICIAN employee: " + technicianId);
-        } catch (RestClientException e) {
-            throw new ComplaintAssignmentException(
-                "Unable to validate technician with employee-service: " + e.getMessage(), e);
+            return call.apply(TenantUserServiceGrpc.newBlockingStub(channel));
+        } catch (StatusRuntimeException | IllegalArgumentException ex) {
+            throw new ComplaintAssignmentException(failureMessage + ": " + ex.getMessage(), ex);
+        } finally {
+            channel.shutdown();
         }
     }
 
-    private void markTechnicianAssigned(Long technicianId) {
-        try {
-            employeeServiceClient.put()
-                .uri("/api/employees/{id}/technician-assignment/assign", technicianId)
-                .retrieve()
-                .toBodilessEntity();
-        } catch (RestClientException e) {
-            throw new ComplaintAssignmentException(
-                "Unable to mark technician assigned in employee-service: " + e.getMessage(), e);
-        }
-    }
-
-    private void releaseTechnician(Long technicianId) {
-        try {
-            employeeServiceClient.put()
-                .uri("/api/employees/{id}/technician-assignment/release", technicianId)
-                .retrieve()
-                .toBodilessEntity();
-        } catch (RestClientException e) {
-            throw new ComplaintAssignmentException(
-                "Unable to release technician in employee-service: " + e.getMessage(), e);
-        }
-    }
-
-    private void validateTechnicianTerritory(Complaint complaint, EmployeeSnapshot technician) {
-        if (hasText(complaint.getState()) && !same(complaint.getState(), technician.assignedState())) {
-            throw new ComplaintAssignmentException("Technician is outside complaint state");
-        }
-        if (hasText(complaint.getDistrict())
-            && !same(complaint.getDistrict(), technician.assignedDistrict())) {
-            throw new ComplaintAssignmentException("Technician is outside complaint district");
-        }
-        if (hasText(complaint.getCity()) && !same(complaint.getCity(), technician.assignedCity())) {
-            throw new ComplaintAssignmentException("Technician is outside complaint city");
-        }
-    }
-
-    private boolean same(String left, String right) {
-        if (left == null || right == null) {
-            return false;
-        }
-        return left.trim().equalsIgnoreCase(right.trim());
-    }
-
-    private boolean hasText(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
-
-    private record EmployeeSnapshot(Long id, String role, String status, String assignedState,
-                                    String assignedDistrict, String assignedCity) {
+    private String tenantId() {
+        String tenantId = TenantContext.getCurrentTenant();
+        return tenantId == null ? "" : tenantId;
     }
 }
